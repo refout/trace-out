@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="aeda5ca7-ac5c-46cf-87cd-3df3e0594131" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-authentication/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-authentication/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/Application.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/controller/Controller.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/domain/CaptchaResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/domain/LoginRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/domain/LoginResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/domain/RegisterRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/domain/RegisterResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/service/AuthenticationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/service/impl/AuthenticationServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-common-system/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-common-system/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-common-system/src/main/java/com/refout/trace/common/system/domain/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-common-system/src/main/java/com/refout/trace/common/system/service/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-common-web/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-common-web/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-common-web/src/main/java/com/refout/trace/common/web/domain/Result.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-common/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-common/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-common/src/main/java/com/refout/trace/common/util/DateUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-common/src/main/java/com/refout/trace/common/util/JsonUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-common/src/main/java/com/refout/trace/common/util/RandomUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-datasource/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-datasource/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-datasource/src/main/java/com/refout/trace/datasource/handler/RedisSnowflakeHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-datasource/src/main/java/com/refout/trace/datasource/handler/Snowflake.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-express-form/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-express-form/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-redis/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-redis/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-redis/src/main/java/com/refout/trace/redis/config/RedisConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-redis/src/main/java/com/refout/trace/redis/constant/CacheKeyRule.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-system/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-system/pom.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="Record" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2T306fMvpchptolhOTyWZgJgFzN" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "OverrideImplement.generate.javadoc": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "jdk.selected.JAVA_MODULE": "17",
+    "last_directory_selection": "C:/Users/MH/IdeaProjects/trace-out/trace-redis/src/main/java/com/refout/trace/redis",
+    "last_opened_file_path": "C:/Users/MH/IdeaProjects/trace-out/trace-authentication/src/main/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "project.structure.last.edited": "模块",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.sourceCode.Java",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "redis"
+    ]
+  }
+}]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\MH\IdeaProjects\trace-out\trace-authentication\src\main\resources" />
+      <recent name="C:\Users\MH\IdeaProjects\trace-out\trace-datasource\src\main\java\com\refout\trace\datasource" />
+      <recent name="C:\Users\MH\IdeaProjects\trace-out\trace-authentication\src\main\java\com\refout\trace\authentication\domain" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="trace-authentication" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.refout.trace.authentication.Application" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.refout.trace.authentication.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.Application" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="aeda5ca7-ac5c-46cf-87cd-3df3e0594131" name="更改" comment="" />
+      <created>1690256285449</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1690256285449</updated>
+      <workItem from="1690256286870" duration="11939000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-redis/3.1.2/spring-data-redis-3.1.2-sources.jar!/org/springframework/data/redis/connection/RedisKeyCommands.java</url>
+          <line>63</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-redis/3.1.2/spring-data-redis-3.1.2-sources.jar!/org/springframework/data/redis/core/RedisTemplate.java</url>
+          <line>568</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-redis/3.1.2/spring-data-redis-3.1.2-sources.jar!/org/springframework/data/redis/connection/RedisKeyCommands.java</url>
+          <line>61</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/trace-datasource/src/main/java/com/refout/trace/datasource/handler/RedisSnowflakeHandler.java</url>
+          <line>52</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
