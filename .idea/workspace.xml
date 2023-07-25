@@ -5,49 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aeda5ca7-ac5c-46cf-87cd-3df3e0594131" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-authentication/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-authentication/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/Application.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/controller/Controller.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/domain/CaptchaResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/domain/LoginRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/domain/LoginResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/domain/RegisterRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/domain/RegisterResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/service/AuthenticationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/service/impl/AuthenticationServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-authentication/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-common-system/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-common-system/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-common-system/src/main/java/com/refout/trace/common/system/domain/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-common-system/src/main/java/com/refout/trace/common/system/service/UserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-common-web/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-common-web/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-common-web/src/main/java/com/refout/trace/common/web/domain/Result.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-common/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-common/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-common/src/main/java/com/refout/trace/common/util/DateUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-common/src/main/java/com/refout/trace/common/util/JsonUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-common/src/main/java/com/refout/trace/common/util/RandomUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-datasource/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-datasource/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-datasource/src/main/java/com/refout/trace/datasource/handler/RedisSnowflakeHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-datasource/src/main/java/com/refout/trace/datasource/handler/Snowflake.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-express-form/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-express-form/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-redis/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-redis/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-redis/src/main/java/com/refout/trace/redis/config/RedisConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-redis/src/main/java/com/refout/trace/redis/constant/CacheKeyRule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-system/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trace-system/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-datasource/src/main/java/com/refout/trace/datasource/handler/snowflake/RedisSnowflakeHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trace-datasource/src/main/java/com/refout/trace/datasource/handler/snowflake/SnowflakeId.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/trace-authentication/src/main/java/com/refout/trace/authentication/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trace-common/src/main/java/com/refout/trace/common/util/RandomUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/trace-common/src/main/java/com/refout/trace/common/util/RandomUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trace-datasource/src/main/java/com/refout/trace/datasource/handler/RedisSnowflakeHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/trace-datasource/src/main/java/com/refout/trace/datasource/handler/Snowflake.java" beforeDir="false" afterPath="$PROJECT_DIR$/trace-datasource/src/main/java/com/refout/trace/datasource/handler/snowflake/Snowflake.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,8 +23,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Record" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -89,10 +54,11 @@
     "last_opened_file_path": "C:/Users/MH/IdeaProjects/trace-out/trace-authentication/src/main/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
-    "project.structure.last.edited": "模块",
+    "project.structure.last.edited": "项目",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.sourceCode.Java",
+    "spring.configuration.checksum": "b273f109d3ab1eac33825dacc5f519f8",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -147,6 +113,7 @@
       <option name="presentableId" value="Default" />
       <updated>1690256285449</updated>
       <workItem from="1690256286870" duration="11939000" />
+      <workItem from="1690293105454" duration="4975000" />
     </task>
     <servers />
   </component>
@@ -170,11 +137,6 @@
           <url>jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-redis/3.1.2/spring-data-redis-3.1.2-sources.jar!/org/springframework/data/redis/connection/RedisKeyCommands.java</url>
           <line>61</line>
           <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/trace-datasource/src/main/java/com/refout/trace/datasource/handler/RedisSnowflakeHandler.java</url>
-          <line>52</line>
-          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

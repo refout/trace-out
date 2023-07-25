@@ -1,4 +1,4 @@
-package com.refout.trace.datasource.handler;
+package com.refout.trace.datasource.handler.snowflake;
 
 /**
  * 参考Twitter Snowflake算法实现
@@ -98,7 +98,7 @@ public class Snowflake {
 	 * @param datacenterId 数据中心ID，取值范围为0-31
 	 * @throws IllegalArgumentException 当机器ID或数据中心ID超出取值范围时抛出异常
 	 */
-	public Snowflake(int datacenterId, int workerId) {
+	public Snowflake(long datacenterId, long workerId) {
 		checked(workerId, datacenterId);
 		this.workerId = workerId;
 		this.datacenterId = datacenterId;
@@ -113,7 +113,7 @@ public class Snowflake {
 	 *                                  并且如果datacenterId大于maxDatacenterId或小于0，
 	 *                                  则会抛出IllegalArgumentException异常。
 	 */
-	private void checked(int workerId, int datacenterId) {
+	private void checked(long workerId, long datacenterId) {
 		if (workerId > MAX_WORKER_ID || workerId < 0) {
 			throw new IllegalArgumentException("workerId不能大于" + MAX_WORKER_ID + "或小于0");
 		}

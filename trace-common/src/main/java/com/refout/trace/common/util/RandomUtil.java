@@ -30,4 +30,15 @@ public class RandomUtil {
         return random.nextInt(min, max + 1);
     }
 
+    /**
+     * 生成指定范围内的随机整数。
+     *
+     * @param min 最小值 （包含）
+     * @param max 最大值 （包含）
+     * @return 生成的随机整数
+     */
+    public static long randomLong(long min, long max) {
+        return random.nextLong(min, max + 1);
+    }
+
 }
