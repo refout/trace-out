@@ -1,0 +1,92 @@
+### 登录
+POST http://localhost:8080/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "principal": "admin",
+  "credentials": "123456"
+}
+
+> {%
+    client.log(response.body.data.token);
+    client.global.set("auth_token", response.body.data.token);
+%}
+
+<> 2023-07-09T235645.200.json
+<> 2023-07-09T235615.200.json
+<> 2023-07-09T235559.200.json
+<> 2023-07-09T235228.200.json
+<> 2023-07-09T234810.200.json
+<> 2023-07-09T225226.200.json
+<> 2023-07-09T224856.200.json
+<> 2023-07-09T224045.200.json
+<> 2023-07-09T223922.200.json
+<> 2023-07-09T223916.200.json
+<> 2023-07-09T223747.200.json
+<> 2023-07-09T223554.200.json
+<> 2023-07-09T223311.200.json
+<> 2023-07-09T221535.200.json
+<> 2023-07-09T221458.200.json
+<> 2023-07-09T221426.200.json
+<> 2023-07-09T221351.200.json
+<> 2023-07-09T220331.200.json
+<> 2023-07-09T215207.200.json
+<> 2023-07-09T213844.200.json
+<> 2023-07-09T212956.200.json
+<> 2023-07-09T212311.200.json
+<> 2023-07-09T203447.200.json
+<> 2023-07-09T203351.200.json
+<> 2023-07-09T203159.200.json
+<> 2023-07-09T203056.200.json
+<> 2023-07-09T202851.200.json
+<> 2023-07-09T202812.200.json
+<> 2023-07-09T201952.200.json
+<> 2023-07-09T200203.200.json
+<> 2023-07-09T180953.200.json
+<> 2023-07-09T180419.200.json
+<> 2023-07-09T180304.200.json
+<> 2023-07-09T175708.200.json
+<> 2023-07-09T175644.200.json
+<> 2023-07-09T173525.200.json
+
+### 获取验证码
+GET http://localhost:8080/captcha
+
+
+### 注册
+POST http://localhost:8080/register
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "username": "zhangsan",
+  "password": "123456",
+  "nickname": "张三",
+  "email": "",
+  "phone": "13000000000",
+  "gender": "1",
+  "avatar": ""
+}
+
+###
+GET http://localhost:8080/img
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+<> 2023-07-10T000258.500.json
+<> 2023-07-09T235819.500.json
+<> 2023-07-09T235757.500.json
+<> 2023-07-09T175416.500.json
+<> 2023-07-09T174854.500.json
+<> 2023-07-09T174818.500.json
+<> 2023-07-09T174717.500.json
+<> 2023-07-09T174012.403.txt
+<> 2023-07-09T173636.403.txt
+<> 2023-07-09T173507.200.json
+<> 2023-07-09T172343.500.json
+<> 2023-07-09T171206.200.json
+<> 2023-07-09T170433.200.json
+<> 2023-07-09T170339.200.json

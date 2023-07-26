@@ -1,9 +1,10 @@
 package com.refout.trace.datasource.handler.snowflake;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.HibernateException;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.id.IdentifierGenerator;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,9 +16,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class SnowflakeId {
-
-
+public class SnowflakeId implements IdentifierGenerator {
 
     private final Snowflake snowflake;
 
@@ -35,6 +34,17 @@ public class SnowflakeId {
         return snowflake.nextId();
     }
 
-
+    /**
+     * Generate a new identifier.
+     *
+     * @param session The session from which the request originates
+     * @param object  the entity or collection (idbag) for which the id is being generated
+     * @return a new identifier
+     * @throws HibernateException Indicates trouble generating the identifier
+     */
+    @Override
+    public Object generate(SharedSessionContractImplementor session, Object object) {
+        return nextId();
+    }
 
 }

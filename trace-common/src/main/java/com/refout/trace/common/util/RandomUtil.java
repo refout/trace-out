@@ -1,6 +1,7 @@
 package com.refout.trace.common.util;
 
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * 随机工具类
@@ -41,4 +42,7 @@ public class RandomUtil {
         return random.nextLong(min, max + 1);
     }
 
+    public static String randomUUID(){
+        return UUID.randomUUID().toString().replace("-", "");
+    }
 }
