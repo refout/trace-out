@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
-@Table(schema = "ts_user")
+@Table(schema = "trace", name = "ts_user")
 @Entity
 public class User extends AbstractEntity {
 

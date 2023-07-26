@@ -12,8 +12,8 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true, fluent = true)
-@Table(schema = "ts_menu")
-@Entity
+@Table(schema = "trace", name = "ts_menu")
+@Entity(name = "ts_menu")
 public class Menu extends AbstractEntity {
 
 	@Column(name = "menu_name")

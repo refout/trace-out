@@ -3,6 +3,7 @@ package com.refout.trace.authentication.controller;
 import com.refout.trace.authentication.domain.*;
 import com.refout.trace.authentication.service.AuthenticationService;
 import com.refout.trace.common.web.domain.Result;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class Controller {
 
-	@Autowired
+	@Resource
 	private AuthenticationService authenticationService;
 
 	@GetMapping("/captcha")

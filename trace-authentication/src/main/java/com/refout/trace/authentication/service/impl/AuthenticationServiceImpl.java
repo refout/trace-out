@@ -21,7 +21,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 
 
@@ -185,14 +187,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (id == null) {
             throw new AuthorizationException();
         }
-        Set<String> permissions = menuService.getPermissionByUserId(id);
+        List<String> permissions = menuService.getPermissionByUserId(id);
 
         String tokenId = RandomUtil.randomUUID();
         String token = JwtUtil.createToken(tokenId);
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime expirationTime = now.plusSeconds(tokenExpirationSecond);
         Authenticated authenticated = new Authenticated(
-                token, user, permissions, now, expirationTime,
+                token, user, new TreeSet<>(permissions), now, expirationTime,
                 //todo
                 "", "", "", ""
         );
