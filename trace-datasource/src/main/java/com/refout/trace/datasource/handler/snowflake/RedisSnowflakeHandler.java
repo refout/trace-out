@@ -1,14 +1,16 @@
 package com.refout.trace.datasource.handler.snowflake;
 
 
-import com.refout.trace.common.util.RandomUtil;
 import com.refout.trace.redis.constant.CacheKeyRule;
 import jakarta.annotation.Resource;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 /**
@@ -36,6 +38,11 @@ public class RedisSnowflakeHandler {
      */
     private static final long ID_COUNT = MAX_ID - MIN_ID + 1;
 
+    private Node thisNode = null;
+
+    @Value("${trace.snowflake.node-id.timeout-hour}")
+    private int timeoutHour;
+
     /**
      * Redis响应式
      */
@@ -43,9 +50,15 @@ public class RedisSnowflakeHandler {
     private RedisTemplate<String, List<Long>> redisTemplate;
 
     protected Node getNode() {
+        Node node = findNode();
+        thisNode = node;
+        return node;
+    }
+
+    protected Node findNode() {
         Set<String> keys = redisTemplate.keys(CacheKey.commonKey());
         if (keys == null || keys.isEmpty()) {
-            redisTemplate.opsForValue().set(CacheKey.key(MIN_ID, MIN_ID), List.of(MIN_ID, MIN_ID));
+            setNodeToRedis(MIN_ID, MIN_ID);
             return new Node(MIN_ID, MIN_ID);
         }
 
@@ -90,6 +103,14 @@ public class RedisSnowflakeHandler {
         return getId(map::containsKey, id -> id, id -> MIN_ID);
     }
 
+    @Scheduled(cron = "${trace.snowflake.node-id.redis-expire-job}")
+    public void expiredJob() {
+        if (thisNode == null) {
+            return;
+        }
+        redisTemplate.expire(CacheKey.key(thisNode.datacenterId, thisNode.workerId), timeoutHour, TimeUnit.HOURS);
+    }
+
     private @Nullable Node getId(Function<Long, Boolean> notId,
                                  Function<Long, Long> datacenterIdFunc,
                                  Function<Long, Long> workerIdFunc) {
@@ -100,7 +121,7 @@ public class RedisSnowflakeHandler {
                 String key = CacheKey.key(datacenterId, workerId);
                 Boolean hasKey = redisTemplate.hasKey(key);
                 if (hasKey == null || !hasKey) {
-                    redisTemplate.opsForValue().set(key, List.of(datacenterId, workerId));
+                    setNodeToRedis(datacenterId, workerId);
                     return new Node(datacenterId, workerId);
                 }
             }
@@ -108,7 +129,14 @@ public class RedisSnowflakeHandler {
         return null;
     }
 
+    private void setNodeToRedis(long datacenterId, long workerId) {
+        redisTemplate.opsForValue().set(
+                CacheKey.key(datacenterId, workerId), List.of(datacenterId, workerId),
+                timeoutHour, TimeUnit.HOURS);
+    }
+
     protected record Node(long datacenterId, long workerId) {
+
     }
 
     private static class CacheKey extends CacheKeyRule {

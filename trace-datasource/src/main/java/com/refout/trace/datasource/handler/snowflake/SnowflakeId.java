@@ -2,6 +2,8 @@ package com.refout.trace.datasource.handler.snowflake;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class SnowflakeId {
+
+
 
     private final Snowflake snowflake;
 
@@ -30,5 +34,7 @@ public class SnowflakeId {
     public long nextId() {
         return snowflake.nextId();
     }
+
+
 
 }

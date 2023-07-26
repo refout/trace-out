@@ -1,0 +1,12 @@
+spring:
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+
+trace:
+  snowflake:
+    node-id:
+      timeout-hour: 1
+      redis-expire-job: 0 0/50 * * * ?
+#security.noFilter=/captcha,/login,/register
