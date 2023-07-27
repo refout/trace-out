@@ -12,6 +12,9 @@ import com.refout.trace.common.system.service.UserService;
 import com.refout.trace.common.util.RandomUtil;
 import com.refout.trace.common.util.StringUtil;
 import com.refout.trace.common.web.exception.AuthorizationException;
+import com.refout.trace.common.web.util.IpUtil;
+import com.refout.trace.common.web.util.ServletUtil;
+import eu.bitwalker.useragentutils.UserAgent;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -19,6 +22,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -193,10 +198,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String token = JwtUtil.createToken(tokenId);
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime expirationTime = now.plusSeconds(tokenExpirationSecond);
+        String userAgent = ServletUtil.getUserAgent();
+        UserAgent agent = UserAgent.parseUserAgentString(userAgent);
+        String requestIP = ServletUtil.getRequestIP();
         Authenticated authenticated = new Authenticated(
                 token, user, new TreeSet<>(permissions), now, expirationTime,
-                //todo
-                "", "", "", ""
+                requestIP, agent.getBrowser().getName(), agent.getOperatingSystem().getName()
         );
         redisTemplate.boundValueOps(CacheKey.userKey(tokenId))
                 .set(authenticated, tokenExpirationSecond, TimeUnit.SECONDS);

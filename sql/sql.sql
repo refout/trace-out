@@ -25,7 +25,7 @@ create table ts_user
 )    comment '用户信息';
 
 INSERT INTO ts_user (id, username, password, nickname, email, phone, gender, avatar, user_type, state, create_time, create_by, update_time, update_by, deleted)
-VALUES (1, 'admin', '{bcrypt}$2a$10$QqJlLWbLfKx2JvQOi7.iVuiSOHt0YmUMxP7U4ikrNx8qDDLKW27zy', '管理员', null, '18000000000', '2', null, '0', '0', sysdate(), 'admin', null, null, 0);
+VALUES (1, 'admin', '$2a$10$QqJlLWbLfKx2JvQOi7.iVuiSOHt0YmUMxP7U4ikrNx8qDDLKW27zy', '管理员', null, '18000000000', '2', null, '0', '0', sysdate(), 'admin', null, null, 0);
 
 drop table if exists ts_role;
 create table ts_role

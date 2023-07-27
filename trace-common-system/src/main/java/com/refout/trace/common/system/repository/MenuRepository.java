@@ -12,26 +12,30 @@ import java.util.List;
 @Repository
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 
-	@Query("select distinct permission " +
-			"from ts_menu m " +
-			"         left join ts_role_menu rm on m.id = rm.menu_id " +
-			"where m.state = '0' " +
-			"  and m.deleted = 0" +
-			"  and m.permission is not null" +
-			"  and m.permission != ''" +
-			"  and rm.role_id in (:roleIds)")
+	@Query(value = """
+            select distinct permission
+            from ts_menu m
+                     left join ts_role_menu rm on m.id = rm.menu_id
+            where m.state = '0'
+              and m.deleted = 0
+              and m.permission is not null
+              and m.permission != ''
+              and rm.role_id in (:roleIds)
+            """, nativeQuery = true)
 	List<String> findPermissionsByRoleIds(@Param("roleIds") List<Long> roleIds);
 
-	@Query("select distinct m.permission " +
-			"from ts_menu m" +
-			"         left join ts_role_menu rm on m.id = rm.menu_id" +
-			"         left join ts_user_role ur on ur.role_id = rm.role_id " +
-			"where m.state = '0'" +
-			"  and m.deleted = 0" +
-			"  and m.permission is not null" +
-			"  and m.permission != ''" +
-			"  and ur.user_id in (:userId)" +
-			"order by m.permission")
+	@Query(value = """
+			select distinct m.permission
+						from ts_menu m
+						         left join ts_role_menu rm on m.id = rm.menu_id
+						         left join ts_user_role ur on ur.role_id = rm.role_id
+						where m.state = '0'
+						  and m.deleted = 0
+						  and m.permission is not null
+						  and m.permission != ''
+						  and ur.user_id in (:userId)
+						order by m.permission
+			""", nativeQuery = true)
 	List<String> findPermissionsByUserId(@Param("userId") long userId);
 
 }

@@ -1,4 +1,4 @@
-package com.refout;
+package com.refout.trace;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

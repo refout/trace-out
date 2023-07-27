@@ -15,6 +15,8 @@ target/
 .idea/dataSources.*
 .idea/shelf
 .idea/workspace.xml
+.idea/misc.xml
+/.idea/httpRequests/
 
 ### Eclipse ###
 .apt_generated

@@ -25,12 +25,11 @@
         <dependency>
             <groupId>com.refout</groupId>
             <artifactId>trace-redis</artifactId>
-            <version>0.0.1</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.refout</groupId>
             <artifactId>trace-datasource</artifactId>
-            <version>0.0.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -55,8 +54,12 @@
         <dependency>
             <groupId>com.refout</groupId>
             <artifactId>trace-common-system</artifactId>
-            <version>0.0.1</version>
             <scope>compile</scope>
+        </dependency>
+        <!-- 解析客户端操作系统、浏览器等 -->
+        <dependency>
+            <groupId>eu.bitwalker</groupId>
+            <artifactId>UserAgentUtils</artifactId>
         </dependency>
     </dependencies>
 </project>

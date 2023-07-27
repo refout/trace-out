@@ -11,7 +11,6 @@ public record Authenticated(String token,
                             LocalDateTime loginTime,
                             LocalDateTime expireTime,
                             String ip,
-                            String location,
                             String browser,
                             String os) {
 
