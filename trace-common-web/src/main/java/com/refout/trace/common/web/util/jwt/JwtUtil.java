@@ -97,15 +97,4 @@ public class JwtUtil {
 		return authorization.substring(JwtUtil.BEARER.length());
 	}
 
-	public record ClaimsBuilder() {
-
-		private static final Map<String, Object> claims = new HashMap<>();
-
-		public static Map<String, Object> build(String key, Object value) {
-			claims.put(key, value);
-			return claims;
-		}
-
-	}
-
 }
