@@ -10,6 +10,12 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
+  mvc:
+    problemdetails:
+      enabled: true
+    log-request-details: true
+  codec:
+    log-request-details: true
 trace:
   snowflake:
     node-id:
@@ -24,5 +30,9 @@ trace:
     password-error:
       retry-count: 5
       lock-minute: 10
+  security:
+    no-filter: /captcha,/login,/register
 
-      #security.noFilter=/captcha,/login,/register
+logging:
+  level:
+    web: debug

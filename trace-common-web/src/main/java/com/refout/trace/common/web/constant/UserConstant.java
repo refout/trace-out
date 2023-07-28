@@ -1,4 +1,4 @@
-package com.refout.trace.authentication.constant;
+package com.refout.trace.common.web.constant;
 
 public interface UserConstant {
 

@@ -1,8 +1,8 @@
-package com.refout.trace.authentication.util.jwt;
+package com.refout.trace.common.web.util.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.apache.catalina.connector.RequestFacade;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -82,23 +82,19 @@ public class JwtUtil {
 		}
 	}
 
-	public static String getToken(ServerHttpRequest request) {
-		final String authorization = request.getHeaders().getFirst(JwtUtil.AUTHORIZATION);
+	public static String getToken(RequestFacade request) {
+		// 从请求头中获取JWT令牌
+		final String authorization = request.getHeader(JwtUtil.AUTHORIZATION);
 		if (authorization == null || authorization.isBlank()) {
 			return null;
 		}
 
+		// 如果JWT令牌不以"Bearer "开头
 		if (!authorization.startsWith(JwtUtil.BEARER)) {
 			return null;
 		}
 
-		String token = authorization.substring(JwtUtil.BEARER.length());
-		Claims claims = parseToken(token);
-		if (claims == null) {
-			return null;
-		}
-
-		return token;
+		return authorization.substring(JwtUtil.BEARER.length());
 	}
 
 	public record ClaimsBuilder() {
