@@ -2,6 +2,13 @@ package com.refout.trace.common.web.exception;
 
 import com.refout.trace.common.exception.SystemException;
 
+/**
+ * 认证异常
+ *
+ * @author oo w
+ * @version 1.0
+ * @since 2023/7/31 18:00
+ */
 public class AuthenticationException extends SystemException {
 
     /**

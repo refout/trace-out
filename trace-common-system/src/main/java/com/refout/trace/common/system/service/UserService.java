@@ -27,4 +27,12 @@ public interface UserService {
      */
     User getByPhone(String phone);
 
+    /**
+     * 新增
+     *
+     * @param user 用户信息
+     * @return 是否成功
+     */
+    User save(User user);
+
 }

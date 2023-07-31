@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.refout.trace.datasource.handler.snowflake.SnowflakeId;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.Persistable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -21,8 +23,10 @@ import java.time.LocalDateTime;
  * @version 1.0
  * @since 2023/7/31 12:03
  */
+@Accessors(chain = true)
 @Data
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public abstract class AbstractEntity implements Persistable<Long>, Serializable {
 
     /**
@@ -66,7 +70,7 @@ public abstract class AbstractEntity implements Persistable<Long>, Serializable 
      * 逻辑删除（0：未删除；1：已删除）
      */
     @Column(name = "deleted")
-    private Boolean deleted;
+    private Boolean deleted = false;
 
     /**
      * 获取ID

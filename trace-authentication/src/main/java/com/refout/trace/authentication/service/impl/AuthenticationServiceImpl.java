@@ -70,6 +70,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private int passwordErrorLockMinute;
 
     /**
+     * 加密
+     */
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    /**
      * 字符串类型的Redis模板
      */
     @Resource
@@ -198,7 +203,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new AuthorizationException("用户未注册");
         }
 
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
         if (!passwordEncoder.matches(credentials, user.getPassword())) {
             recordRetry(principal, retryLoginCount);
             throw new AuthorizationException("用户名或密码错误");
@@ -298,12 +303,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     /**
      * 注册
      *
-     * @param registerRequest 注册请求信息
+     * @param request 注册请求信息
      * @return 注册响应
      */
     @Override
-    public RegisterResponse register(RegisterRequest registerRequest) {
-        return null;
+    public RegisterResponse register(RegisterRequest request) {
+        //todo
+        User user = new User()
+                .setUsername(request.username())
+                .setPassword(passwordEncoder.encode(request.password()))
+                .setNickname(request.nickname())
+                .setEmail(request.email())
+                .setPhone(request.phone())
+                .setGender(request.gender())
+                .setAvatar(request.avatar());
+        User save = userService.save(user);
+        return new RegisterResponse(save.getUsername());
     }
 
 }

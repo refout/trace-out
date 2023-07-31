@@ -34,4 +34,15 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByPhone(phone);
     }
 
+    /**
+     * 新增
+     *
+     * @param user 用户信息
+     * @return 新增用户
+     */
+    @Override
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
 }
