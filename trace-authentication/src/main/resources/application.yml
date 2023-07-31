@@ -36,3 +36,4 @@ trace:
 logging:
   level:
     web: debug
+    com.refout: debug

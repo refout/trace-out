@@ -22,6 +22,17 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * JwtFilter类实现了Filter接口，用于JWT验证。
+ * 使用@Slf4j注解为该类提供日志记录功能。
+ * 使用@Component注解将该类标记为Spring组件。
+ * 使用@Order注解设置该类的加载顺序。
+ * 使用@WebFilter注解定义过滤器的名称和过滤的URL模式。
+ *
+ * @author oo w
+ * @version 1.0
+ * @since 2023/7/31 12:39
+ */
 @Slf4j
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE + 1)
@@ -34,32 +45,21 @@ public class JwtFilter implements Filter {
     @Value("${trace.security.no-filter:}")
     private List<String> noFilter;
 
+    /**
+     * Redis模板，用于操作Redis数据库
+     */
     @Resource
-    private RedisTemplate<String, Authenticated> redisTemplate;
+    private RedisTemplate<String, Authenticated> redisTemplateAuthenticated;
 
     /**
-     * The <code>doFilter</code> method of the Filter is called by the container each time a request/response pair is
-     * passed through the chain due to a client request for a resource at the end of the chain. The FilterChain passed
-     * in to this method allows the Filter to pass on the request and response to the next entity in the chain.
-     * <p>
-     * A typical implementation of this method would follow the following pattern:- <br>
-     * 1. Examine the request<br>
-     * 2. Optionally wrap the request object with a custom implementation to filter content or headers for input
-     * filtering <br>
-     * 3. Optionally wrap the response object with a custom implementation to filter content or headers for output
-     * filtering <br>
-     * 4. a) <strong>Either</strong> invoke the next entity in the chain using the FilterChain object
-     * (<code>chain.doFilter()</code>), <br>
-     * 4. b) <strong>or</strong> not pass on the request/response pair to the next entity in the filter chain to block
-     * the request processing<br>
-     * 5. Directly set headers on the response after invocation of the next entity in the filter chain.
+     * doFilter方法是Filter接口的核心方法，用于处理每次请求/响应对。
+     * 它的主要任务是检查请求，对请求和响应进行必要处理，然后将请求和响应传递给过滤器链中的下一个实体。
      *
-     * @param request  The request to process
-     * @param response The response associated with the request
-     * @param chain    Provides access to the next filter in the chain for this filter to pass the request and response
-     *                 to for further processing
-     * @throws IOException      if an I/O error occurs during this filter's processing of the request
-     * @throws ServletException if the processing fails for any other reason
+     * @param request  需要处理的请求
+     * @param response 与请求关联的响应
+     * @param chain    提供对过滤器链中此过滤器的下一个过滤器的访问，以便此过滤器传递请求和响应以进行进一步处理
+     * @throws IOException      如果在此过滤器处理请求期间发生I/O错误
+     * @throws ServletException 如果处理由于其他原因失败
      */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -89,14 +89,14 @@ public class JwtFilter implements Filter {
 
         String id = claims.getId();
         String userKey = AuthCacheKey.userKey(id);
-        Boolean hasKey = redisTemplate.hasKey(userKey);
+        Boolean hasKey = redisTemplateAuthenticated.hasKey(userKey);
         // 登录口令已过期
         if (hasKey == null || !hasKey) {
             log.info("缓存中无toke：{}，禁止访问", token);
             ResponseUtil.response((HttpServletResponse) response, HttpStatus.UNAUTHORIZED, "登录口令已过期，无权访问");
             return;
         }
-        Authenticated authenticated = redisTemplate.boundValueOps(userKey).get();
+        Authenticated authenticated = redisTemplateAuthenticated.boundValueOps(userKey).get();
         if (authenticated == null) {
             log.info("获取到的缓存为空：{}，禁止访问", token);
             ResponseUtil.response((HttpServletResponse) response, HttpStatus.UNAUTHORIZED, "登录口令已过期，无权访问");

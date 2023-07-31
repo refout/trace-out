@@ -4,7 +4,6 @@ import com.refout.trace.authentication.constant.CacheKey;
 import com.refout.trace.authentication.domain.*;
 import com.refout.trace.authentication.service.AuthenticationService;
 import com.refout.trace.authentication.util.CaptchaGenerator;
-import com.refout.trace.common.web.util.jwt.JwtUtil;
 import com.refout.trace.common.system.domain.User;
 import com.refout.trace.common.system.domain.authenticated.Authenticated;
 import com.refout.trace.common.system.service.MenuService;
@@ -13,6 +12,7 @@ import com.refout.trace.common.util.RandomUtil;
 import com.refout.trace.common.util.StringUtil;
 import com.refout.trace.common.web.exception.AuthorizationException;
 import com.refout.trace.common.web.util.ServletUtil;
+import com.refout.trace.common.web.util.jwt.JwtUtil;
 import eu.bitwalker.useragentutils.UserAgent;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * TODO
+ * 认证服务实现类
  *
  * @author oo w
  * @version 1.0
@@ -39,41 +39,73 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-
+    /**
+     * token过期时间
+     */
     @Value("${trace.token.expiration-second}")
     private int tokenExpirationSecond;
 
+    /**
+     * 验证码过期时间
+     */
     @Value("${trace.captcha.expiration-second}")
     private int captchaExpirationSecond;
 
+    /**
+     * 验证码功能开关
+     */
     @Value("${trace.captcha.enable}")
     private boolean captchaEnable;
 
+    /**
+     * 密码错误重试次数
+     */
     @Value("${trace.login.password-error.retry-count}")
     private int passwordErrorRetryCount;
 
+    /**
+     * 密码错误锁定时间
+     */
     @Value("${trace.login.password-error.lock-minute}")
     private int passwordErrorLockMinute;
 
+    /**
+     * 字符串类型的Redis模板
+     */
     @Resource
     private RedisTemplate<String, String> redisTemplateStr;
 
+    /**
+     * 数字类型的Redis模板
+     */
     @Resource
-    private RedisTemplate<String, Integer> redisTemplateInt;
+    private RedisTemplate<String, Integer> redisTemplateNumber;
 
+    /**
+     * Authenticated类型的Redis模板
+     */
     @Resource
-    private RedisTemplate<String, Authenticated> redisTemplate;
+    private RedisTemplate<String, Authenticated> redisTemplateAuthenticated;
 
+    /**
+     * 用户服务
+     */
     @Resource
     private UserService userService;
 
+    /**
+     * 菜单服务
+     */
     @Resource
     private MenuService menuService;
 
     /**
      * 验证码生成
+     * <p>
+     * 如果未开启验证码功能，则直接返回空的验证码响应数据
+     * 否则，生成验证码并存入Redis，设置相应的过期时间
      *
-     * @return 验证码响应数据
+     * @return 验证码响应数据，包含验证码ID和验证码图片的Base64编码
      */
     @Override
     public CaptchaResponse captcha() {
@@ -92,9 +124,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     /**
      * 登录
+     * <p>
+     * 首先校验验证码，然后校验用户的用户名和密码
+     * 如果校验通过，生成JWT token并返回
      *
-     * @param loginRequest 登录请求信息
-     * @return 登录响应
+     * @param loginRequest 登录请求信息，包含用户名、密码和验证码等
+     * @return 登录响应，包含JWT token
      */
     @Override
     public LoginResponse login(final LoginRequest loginRequest) {
@@ -110,6 +145,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return new LoginResponse(token);
     }
 
+    /**
+     * 验证码校验
+     *
+     * @param loginRequest 登录请求
+     */
     private void validateCaptcha(final LoginRequest loginRequest) {
         if (captchaEnable) {
             String captchaId = loginRequest.captchaId();
@@ -131,6 +171,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
     }
 
+    /**
+     * 登录用户名及密码校验
+     *
+     * @param loginRequest 登录请求
+     * @return 校验通过后的用户信息
+     */
     @NotNull
     private User validateCredentials(final @NotNull LoginRequest loginRequest) {
         String principal = loginRequest.principal();
@@ -163,46 +209,89 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return user;
     }
 
+    /**
+     * 获取指定用户密码错误的重试登录次数。
+     *
+     * @param username 用户名
+     * @return 重试次数
+     */
     private int getRetry(final String username) {
+        // 获取密码错误计数键
         String passwordErrorCountKey = CacheKey.passwordErrorCountKey(username);
-        Integer count = redisTemplateInt.boundValueOps(passwordErrorCountKey).get();
+        // 从Redis中获取计数值
+        Integer count = redisTemplateNumber.boundValueOps(passwordErrorCountKey).get();
+        // 如果计数值为空，则将其设置为0
         if (count == null) {
             count = 0;
         }
+        // 返回计数值
         return count;
     }
 
+    /**
+     * 记录用户密码错误的重试登录次数。
+     *
+     * @param username 用户名
+     * @param count    当前重试次数
+     */
     private void recordRetry(final String username, final int count) {
+        // 获取密码错误计数键
         String passwordErrorCountKey = CacheKey.passwordErrorCountKey(username);
-        redisTemplateInt.boundValueOps(passwordErrorCountKey)
+        // 将重试次数加1，并设置到Redis中，设置过期时间为passwordErrorLockMinute分钟
+        redisTemplateNumber.boundValueOps(passwordErrorCountKey)
                 .set(count + 1, passwordErrorLockMinute, TimeUnit.MINUTES);
     }
 
+    /**
+     * 移除用户密码错误的重试登录次数。
+     *
+     * @param username 用户名
+     */
     private void removeRetry(final String username) {
+        // 获取密码错误计数键
         String passwordErrorCountKey = CacheKey.passwordErrorCountKey(username);
-        redisTemplateInt.delete(passwordErrorCountKey);
+        // 从Redis中删除计数键
+        redisTemplateNumber.delete(passwordErrorCountKey);
     }
 
-    private String buildToken(final User user) {
+    /**
+     * 构建用户的JWT token。
+     *
+     * @param user 用户对象
+     * @return JWT token字符串
+     * @throws AuthorizationException 如果用户的ID为空，则会抛出此异常
+     */
+    private String buildToken(final @NotNull User user) throws AuthorizationException {
+        // 获取用户的ID
         Long id = user.getId();
         if (id == null) {
+            // 如果用户ID为空，则抛出AuthorizationException异常
             throw new AuthorizationException();
         }
+        // 根据用户ID获取用户的权限菜单列表
         List<String> permissions = menuService.getPermissionByUserId(id);
-
+        // 生成一个随机的token ID
         String tokenId = RandomUtil.randomUUID();
+        // 根据token ID生成JWT token字符串
         String token = JwtUtil.createToken(tokenId);
+        // 获取当前时间
         LocalDateTime now = LocalDateTime.now();
+        // 计算token的过期时间
         LocalDateTime expirationTime = now.plusSeconds(tokenExpirationSecond);
+        // 获取用户的UserAgent信息
         String userAgent = ServletUtil.getUserAgent();
         UserAgent agent = UserAgent.parseUserAgentString(userAgent);
+        // 获取用户的请求IP地址
         String requestIP = ServletUtil.getRequestIP();
+        // 创建一个Authenticated对象，包括token、用户对象、权限菜单列表、创建时间、过期时间、请求IP地址、浏览器名称和操作系统名称
         Authenticated authenticated = new Authenticated(
                 token, user, new TreeSet<>(permissions), now, expirationTime,
                 requestIP, agent.getBrowser().getName(), agent.getOperatingSystem().getName()
         );
-        redisTemplate.boundValueOps(CacheKey.userKey(tokenId))
+        // 将Authenticated对象设置到Redis中，并设置过期时间为tokenExpirationSecond秒
+        redisTemplateAuthenticated.boundValueOps(CacheKey.userKey(tokenId))
                 .set(authenticated, tokenExpirationSecond, TimeUnit.SECONDS);
+        // 返回JWT token字符串
         return token;
     }
 

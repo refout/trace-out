@@ -1,7 +1,9 @@
 package com.refout.trace.datasource.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.refout.trace.datasource.handler.snowflake.SnowflakeId;
 import jakarta.persistence.*;
+import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -12,66 +14,96 @@ import org.springframework.data.domain.Persistable;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * 抽象实体类
+ *
+ * @author oo w
+ * @version 1.0
+ * @since 2023/7/31 12:03
+ */
+@Data
 @MappedSuperclass
 public abstract class AbstractEntity implements Persistable<Long>, Serializable {
 
-  @Id
-  @GenericGenerator(type = SnowflakeId.class, name = "snowflakeId")
-  @GeneratedValue(generator = "snowflakeId")
-  private Long id;
+    /**
+     * ID
+     */
+    @Id
+    @GenericGenerator(type = SnowflakeId.class, name = "snowflakeId")
+    @GeneratedValue(generator = "snowflakeId")
+    @Column(name = "id")
+    private Long id;
 
-  /**
-   * 创建时间
-   */
-  @CreatedDate
-  private LocalDateTime createTime;
+    /**
+     * 创建时间
+     */
+    @CreatedDate
+    @Column(name = "create_time")
+    private LocalDateTime createTime;
 
-  /**
-   * 创建人
-   */
-  @CreatedBy
-  private String createBy;
+    /**
+     * 创建人
+     */
+    @CreatedBy
+    @Column(name = "create_by")
+    private String createBy;
 
-  /**
-   * 更新时间
-   */
-  @LastModifiedDate
-  private LocalDateTime updateTime;
+    /**
+     * 更新时间
+     */
+    @LastModifiedDate
+    @Column(name = "update_time")
+    private LocalDateTime updateTime;
 
-  /**
-   * 更新人
-   */
-  @LastModifiedBy
-  private String updateBy;
+    /**
+     * 更新人
+     */
+    @LastModifiedBy
+    @Column(name = "update_by")
+    private String updateBy;
 
-  /**
-   * 逻辑删除（0：未删除；1：已删除）
-   */
-  private Boolean deleted;
+    /**
+     * 逻辑删除（0：未删除；1：已删除）
+     */
+    @Column(name = "deleted")
+    private Boolean deleted;
 
-  /**
-   * Returns the id of the entity.
-   *
-   * @return the id. Can be {@literal null}.
-   */
-  @Override
-  public Long getId() {
-    return id;
-  }
+    /**
+     * 获取ID
+     *
+     * @return ID
+     */
+    @Override
+    public Long getId() {
+        return id;
+    }
 
-  @Transient
-  private boolean isNew = true;
+    /**
+     * 是否为新实体
+     */
+    @JsonIgnore
+    @Transient
+    private boolean isNew = true;
 
-  @Override
-  public boolean isNew() {
-    return isNew;
-  }
+    /**
+     * 判断实体是否为新实体
+     *
+     * @return 是否为新实体
+     */
+    @JsonIgnore
+    @Override
+    public boolean isNew() {
+        return isNew;
+    }
 
-  @PrePersist
-  @PostLoad
-  void markNotNew() {
-    this.isNew = false;
-  }
+    /**
+     * 标记实体为非新实体
+     */
+    @JsonIgnore
+    @PrePersist
+    @PostLoad
+    void markNotNew() {
+        this.isNew = false;
+    }
 
 }
-
