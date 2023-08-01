@@ -12,25 +12,32 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.util.Optional;
 
+/**
+ * 审计配置
+ *
+ * @author oo w
+ * @version 1.0
+ * @since 2023/8/1 8:46
+ */
 @Slf4j
 @Configuration
 @EnableJpaAuditing
 public class AuditorAwareConfig implements AuditorAware<String> {
 
+    /**
+     * 获取当前的审计人员，当前操作用户
+     *
+     * @return 当前的审计人员，当前操作用户
+     */
     @Override
     public @NotNull Optional<String> getCurrentAuditor() {
-        try {
-            Authenticated authenticated = AuthenticatedContextHolder.getContext();
-            if (authenticated == null || authenticated.user() == null ||
-                    !StringUtil.hasText(authenticated.user().getUsername())) {
-                log.error("审计功能，当前操作用户为空");
-                throw new SystemException("操作失败，获取当前操作用户的值为空");
-            }
-            return Optional.of(authenticated.user().getUsername());
-        } catch (Exception ex) {
-            log.error("审计功能，获取当前用户发生异常：" + ex.getMessage(), ex);
+        Authenticated authenticated = AuthenticatedContextHolder.getContext();
+        if (authenticated == null || authenticated.user() == null ||
+                !StringUtil.hasText(authenticated.user().getUsername())) {
+            log.error("审计功能，当前操作用户为空");
             throw new SystemException("操作失败，无法获取当前操作用户");
         }
+        return Optional.of(authenticated.user().getUsername());
     }
 
 }

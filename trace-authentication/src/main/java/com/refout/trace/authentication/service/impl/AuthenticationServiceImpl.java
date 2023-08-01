@@ -4,13 +4,14 @@ import com.refout.trace.authentication.constant.CacheKey;
 import com.refout.trace.authentication.domain.*;
 import com.refout.trace.authentication.service.AuthenticationService;
 import com.refout.trace.authentication.util.CaptchaGenerator;
+import com.refout.trace.authentication.util.PasswordValidator;
 import com.refout.trace.common.system.domain.User;
 import com.refout.trace.common.system.domain.authenticated.Authenticated;
 import com.refout.trace.common.system.service.MenuService;
 import com.refout.trace.common.system.service.UserService;
 import com.refout.trace.common.util.RandomUtil;
 import com.refout.trace.common.util.StringUtil;
-import com.refout.trace.common.web.exception.AuthorizationException;
+import com.refout.trace.common.web.exception.AuthenticationException;
 import com.refout.trace.common.web.util.ServletUtil;
 import com.refout.trace.common.web.util.jwt.JwtUtil;
 import eu.bitwalker.useragentutils.UserAgent;
@@ -19,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -68,11 +68,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      */
     @Value("${trace.login.password-error.lock-minute}")
     private int passwordErrorLockMinute;
-
-    /**
-     * 加密
-     */
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     /**
      * 字符串类型的Redis模板
@@ -139,7 +134,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public LoginResponse login(final LoginRequest loginRequest) {
         if (loginRequest == null) {
-            throw new AuthorizationException("登录请求数据不能为空");
+            throw new AuthenticationException("登录请求数据不能为空");
         }
 
         validateCaptcha(loginRequest);
@@ -160,16 +155,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             String captchaId = loginRequest.captchaId();
             String captchaCode = loginRequest.captchaCode();
             if (!StringUtil.hasTextAll(captchaId, captchaCode)) {
-                throw new AuthorizationException("验证码为空");
+                throw new AuthenticationException("验证码为空");
             }
 
             String key = CacheKey.captchaKey(captchaId);
             String cacheCaptchaCode = redisTemplateStr.opsForValue().get(key);
             if (!StringUtil.hasText(cacheCaptchaCode)) {
-                throw new AuthorizationException("验证码已失效");
+                throw new AuthenticationException("验证码已失效");
             }
             if (!captchaCode.equalsIgnoreCase(cacheCaptchaCode)) {
-                throw new AuthorizationException("验证码错误");
+                throw new AuthenticationException("验证码错误");
             }
 
             redisTemplateStr.delete(key);
@@ -187,12 +182,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String principal = loginRequest.principal();
         String credentials = loginRequest.credentials();
         if (!StringUtil.hasTextAll(principal, credentials)) {
-            throw new AuthorizationException("用户名或密码为空");
+            throw new AuthenticationException("用户名或密码为空");
         }
 
         int retryLoginCount = getRetry(principal);
         if (retryLoginCount >= passwordErrorRetryCount) {
-            throw new AuthorizationException("用户名或密码多次输入错误，账号已被锁定，稍后再试");
+            throw new AuthenticationException("用户名或密码多次输入错误，账号已被锁定，稍后再试");
         }
 
         User user = userService.getByUsername(principal);
@@ -200,13 +195,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             user = userService.getByPhone(principal);
         }
         if (user == null) {
-            throw new AuthorizationException("用户未注册");
+            throw new AuthenticationException("用户未注册");
         }
 
 
-        if (!passwordEncoder.matches(credentials, user.getPassword())) {
+        if (!PasswordValidator.matches(credentials, user.getPassword())) {
             recordRetry(principal, retryLoginCount);
-            throw new AuthorizationException("用户名或密码错误");
+            throw new AuthenticationException("用户名或密码错误");
         }
 
         removeRetry(principal);
@@ -264,14 +259,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      *
      * @param user 用户对象
      * @return JWT token字符串
-     * @throws AuthorizationException 如果用户的ID为空，则会抛出此异常
+     * @throws AuthenticationException 如果用户的ID为空，则会抛出此异常
      */
-    private String buildToken(final @NotNull User user) throws AuthorizationException {
+    private String buildToken(final @NotNull User user) throws AuthenticationException {
         // 获取用户的ID
         Long id = user.getId();
         if (id == null) {
-            // 如果用户ID为空，则抛出AuthorizationException异常
-            throw new AuthorizationException();
+            // 如果用户ID为空，则抛出AuthenticationException异常
+            throw new AuthenticationException("用户信息获取失败");
         }
         // 根据用户ID获取用户的权限菜单列表
         List<String> permissions = menuService.getPermissionByUserId(id);
@@ -308,10 +303,28 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      */
     @Override
     public RegisterResponse register(RegisterRequest request) {
+        if (request == null) {
+            throw new AuthenticationException("注册信息不能为空");
+        }
+
+        if (!StringUtil.hasTextAll(request.username(), request.password())) {
+            throw new AuthenticationException("用户名或密码不能为空");
+        }
+
+        if (!PasswordValidator.isPasswordValid(request.password())) {
+            throw new AuthenticationException("密码强度太低");
+        }
+
+        if (userService.getByUsername(request.username()) != null) {
+            throw new AuthenticationException("该用户已存在");
+        }
+
+        assert userService.getByUsername(request.username()) != null : new AuthenticationException("该用户已存在");
+
         //todo
         User user = new User()
                 .setUsername(request.username())
-                .setPassword(passwordEncoder.encode(request.password()))
+                .setPassword(PasswordValidator.encode(request.password()))
                 .setNickname(request.nickname())
                 .setEmail(request.email())
                 .setPhone(request.phone())
