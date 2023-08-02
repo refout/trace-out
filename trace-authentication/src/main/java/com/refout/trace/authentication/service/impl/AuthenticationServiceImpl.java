@@ -10,7 +10,7 @@ import com.refout.trace.common.system.domain.authenticated.Authenticated;
 import com.refout.trace.common.system.service.MenuService;
 import com.refout.trace.common.system.service.UserService;
 import com.refout.trace.common.util.RandomUtil;
-import com.refout.trace.common.util.StringUtil;
+import com.refout.trace.common.util.StrUtil;
 import com.refout.trace.common.web.exception.AuthenticationException;
 import com.refout.trace.common.web.util.ServletUtil;
 import com.refout.trace.common.web.util.jwt.JwtUtil;
@@ -18,6 +18,7 @@ import eu.bitwalker.useragentutils.UserAgent;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,16 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
+
+    /**
+     * 用户名最小长度
+     */
+    private static final int USERNAME_MIN_LEN = 3;
+
+    /**
+     * 用户名最大长度
+     */
+    private static final int USERNAME_MAX_LEN = 12;
 
     /**
      * token过期时间
@@ -154,13 +165,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (captchaEnable) {
             String captchaId = loginRequest.captchaId();
             String captchaCode = loginRequest.captchaCode();
-            if (!StringUtil.hasTextAll(captchaId, captchaCode)) {
+            if (!StrUtil.hasTextAll(captchaId, captchaCode)) {
                 throw new AuthenticationException("验证码为空");
             }
 
             String key = CacheKey.captchaKey(captchaId);
             String cacheCaptchaCode = redisTemplateStr.opsForValue().get(key);
-            if (!StringUtil.hasText(cacheCaptchaCode)) {
+            if (!StrUtil.hasText(cacheCaptchaCode)) {
                 throw new AuthenticationException("验证码已失效");
             }
             if (!captchaCode.equalsIgnoreCase(cacheCaptchaCode)) {
@@ -181,7 +192,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private User validateCredentials(final @NotNull LoginRequest loginRequest) {
         String principal = loginRequest.principal();
         String credentials = loginRequest.credentials();
-        if (!StringUtil.hasTextAll(principal, credentials)) {
+        if (!StrUtil.hasTextAll(principal, credentials)) {
             throw new AuthenticationException("用户名或密码为空");
         }
 
@@ -302,34 +313,36 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * @return 注册响应
      */
     @Override
-    public RegisterResponse register(RegisterRequest request) {
-        if (request == null) {
-            throw new AuthenticationException("注册信息不能为空");
-        }
+    public RegisterResponse register(@Nullable RegisterRequest request) {
+        assert request != null : new AuthenticationException("注册信息不能为空");
 
-        if (!StringUtil.hasTextAll(request.username(), request.password())) {
-            throw new AuthenticationException("用户名或密码不能为空");
-        }
+        String username = request.username();
+        String password = request.password();
 
-        if (!PasswordValidator.isPasswordValid(request.password())) {
-            throw new AuthenticationException("密码强度太低");
-        }
+        assert StrUtil.hasTextAll(username, password) : new AuthenticationException("用户名或密码不能为空");
+        assert !StrUtil.containsWhitespace(username) : new AuthenticationException("用户名不能包含空格");
+        assert !StrUtil.containsWhitespace(password) : new AuthenticationException("密码不能包含空格");
 
-        if (userService.getByUsername(request.username()) != null) {
-            throw new AuthenticationException("该用户已存在");
-        }
+        assert username.length() >= USERNAME_MIN_LEN &&
+                username.length() <= USERNAME_MAX_LEN :
+                new AuthenticationException(
+                        String.format("用户名长度在 %s ~ %s 之间", USERNAME_MIN_LEN, USERNAME_MAX_LEN)
+                );
 
-        assert userService.getByUsername(request.username()) != null : new AuthenticationException("该用户已存在");
+        assert PasswordValidator.isPasswordValid(password) : new AuthenticationException("密码强度不满足要求");
+        assert !userService.existWithUsername(username) : new AuthenticationException("用户名已注册");
+        assert !userService.existWithPhone(username) : new AuthenticationException("手机号的用户名已注册");
+        assert !userService.existWithPhone(request.phone()) : new AuthenticationException("手机号已注册");
 
-        //todo
         User user = new User()
-                .setUsername(request.username())
-                .setPassword(PasswordValidator.encode(request.password()))
+                .setUsername(username)
+                .setPassword(PasswordValidator.encode(password))
                 .setNickname(request.nickname())
                 .setEmail(request.email())
                 .setPhone(request.phone())
                 .setGender(request.gender())
                 .setAvatar(request.avatar());
+        user.setCreateBy(username);
         User save = userService.save(user);
         return new RegisterResponse(save.getUsername());
     }

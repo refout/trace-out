@@ -40,19 +40,25 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AuthorizationException.class)
-    public Result handleAuthorizationException(@NotNull AuthenticationException e, @NotNull HttpServletRequest request) {
-        return handleSystemException(e, request);
+    public Result handleAuthorizationException(@NotNull AuthorizationException e, @NotNull HttpServletRequest request) {
+        return handleException(HttpStatus.UNAUTHORIZED, e, request);
     }
 
     @ExceptionHandler(AuthenticationException.class)
     public Result handleAuthenticationException(@NotNull AuthenticationException e, @NotNull HttpServletRequest request) {
-        return handleSystemException(e, request);
+        return handleException(HttpStatus.FORBIDDEN, e, request);
     }
 
     @ExceptionHandler(SystemException.class)
-    private @NotNull Result handleSystemException(@NotNull AuthenticationException e, @NotNull HttpServletRequest request) {
+    private @NotNull Result handleSystemException(@NotNull SystemException e, @NotNull HttpServletRequest request) {
+        return handleException(HttpStatus.INTERNAL_SERVER_ERROR, e, request);
+    }
+
+    private @NotNull Result handleException(@NotNull HttpStatus httpStatus,
+                                            @NotNull SystemException e,
+                                            @NotNull HttpServletRequest request) {
         printLog(e, request);
-        return Result.fault(HttpStatus.FORBIDDEN.value(), e.getMessage());
+        return Result.fault(httpStatus.value(), e.getMessage());
     }
 
     private void printLog(@NotNull Exception e, @NotNull HttpServletRequest request) {

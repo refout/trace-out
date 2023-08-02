@@ -22,7 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	 * @param username 用户名
 	 * @return 用户
 	 */
-	 User findByUsername(String username);
+	User findByUsername(String username);
 
 	/**
 	 * 通过电话查找用户
@@ -31,5 +31,21 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	 * @return 用户
 	 */
 	User findByPhone(String phone);
+
+	/**
+	 * 根据手机号统计用户数量。
+	 *
+	 * @param phone 手机号
+	 * @return 用户数量
+	 */
+	int countByPhone(String phone);
+
+	/**
+	 * 根据用户名统计用户数量。
+	 *
+	 * @param username 用户名
+	 * @return 用户数量
+	 */
+	int countByUsername(String username);
 
 }

@@ -2,7 +2,10 @@ package com.refout.trace.common.util;
 
 import org.springframework.util.StringUtils;
 
-public class StringUtil extends StringUtils {
+import java.util.function.Function;
+
+@SuppressWarnings("unused")
+public class StrUtil extends StringUtils {
 
 	/**
 	 * 空字符串
@@ -10,15 +13,11 @@ public class StringUtil extends StringUtils {
 	private static final String EMPTY_STR = "";
 
 	public static boolean hasTextAll(String... str) {
-		if (str == null || str.length == 0) {
-			return false;
-		}
-		for (String s : str) {
-			if (!hasText(s)) {
-				return false;
-			}
-		}
-		return true;
+		return multipleAll(StringUtils::hasText, str);
+	}
+
+	public static boolean containsWhitespaceAll(String... str) {
+		return multipleAll(StringUtils::containsWhitespace, str);
 	}
 
 	/**
@@ -57,6 +56,30 @@ public class StringUtil extends StringUtils {
 		}
 
 		return str.substring(start, end);
+	}
+
+	private static Boolean multipleAny(Function<CharSequence, Boolean> function, CharSequence... str) {
+		if (str == null) {
+			return false;
+		}
+		for (CharSequence s : str) {
+			if (function.apply(s)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static Boolean multipleAll(Function<CharSequence, Boolean> function, CharSequence... str) {
+		if (str == null) {
+			return false;
+		}
+		for (CharSequence s : str) {
+			if (!function.apply(s)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

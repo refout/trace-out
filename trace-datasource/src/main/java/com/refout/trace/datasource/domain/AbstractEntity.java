@@ -3,7 +3,8 @@ package com.refout.trace.datasource.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.refout.trace.datasource.handler.snowflake.SnowflakeId;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
@@ -24,7 +25,8 @@ import java.time.LocalDateTime;
  * @since 2023/7/31 12:03
  */
 @Accessors(chain = true)
-@Data
+@Getter
+@Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class AbstractEntity implements Persistable<Long>, Serializable {

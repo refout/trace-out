@@ -37,3 +37,6 @@ logging:
   level:
     web: debug
     com.refout: debug
+
+server:
+  shutdown: graceful

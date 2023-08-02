@@ -1,8 +1,7 @@
 package com.refout.trace.common.web.config;
 
-import com.refout.trace.common.exception.SystemException;
 import com.refout.trace.common.system.domain.authenticated.Authenticated;
-import com.refout.trace.common.util.StringUtil;
+import com.refout.trace.common.util.StrUtil;
 import com.refout.trace.common.web.context.AuthenticatedContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -33,9 +32,9 @@ public class AuditorAwareConfig implements AuditorAware<String> {
     public @NotNull Optional<String> getCurrentAuditor() {
         Authenticated authenticated = AuthenticatedContextHolder.getContext();
         if (authenticated == null || authenticated.user() == null ||
-                !StringUtil.hasText(authenticated.user().getUsername())) {
+                !StrUtil.hasText(authenticated.user().getUsername())) {
             log.error("审计功能，当前操作用户为空");
-            throw new SystemException("操作失败，无法获取当前操作用户");
+            return Optional.empty();
         }
         return Optional.of(authenticated.user().getUsername());
     }

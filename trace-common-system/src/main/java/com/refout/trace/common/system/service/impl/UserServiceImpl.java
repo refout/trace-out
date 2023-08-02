@@ -45,4 +45,26 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    /**
+     * 根据手机号统计用户是否存在。
+     *
+     * @param phone 手机号
+     * @return 用户是否存在
+     */
+    @Override
+    public boolean existWithPhone(String phone) {
+        return userRepository.countByPhone(phone) > 0;
+    }
+
+    /**
+     * 根据用户名统计用户是否存在。
+     *
+     * @param username 用户名
+     * @return 用户是否存在
+     */
+    @Override
+    public boolean existWithUsername(String username) {
+        return userRepository.countByUsername(username) > 0;
+    }
+
 }

@@ -1,6 +1,6 @@
 package com.refout.trace.common.web.util;
 
-import com.refout.trace.common.util.StringUtil;
+import com.refout.trace.common.util.StrUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,7 +13,12 @@ import java.util.Optional;
 
 /**
  * 获取IP方法
+ *
+ * @author oo w
+ * @version 1.0
+ * @since 2023/8/2 19:09
  */
+@SuppressWarnings("unused")
 public class IpUtil {
 
     public final static String REGX_0_255 = "(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]\\d|\\d)";
@@ -240,7 +245,7 @@ public class IpUtil {
      * @return 第一个非unknown IP地址
      */
     public static String getMultistageReverseProxyIp(String ip) {
-        if (!StringUtil.hasText(ip)) {
+        if (!StrUtil.hasText(ip)) {
             return "";
         }
         // 多级反向代理检测
@@ -265,21 +270,21 @@ public class IpUtil {
      * @return 是否未知
      */
     public static boolean isUnknown(String checkString) {
-        return !StringUtil.hasText(checkString) || IP_UNKNOWN.equalsIgnoreCase(checkString);
+        return !StrUtil.hasText(checkString) || IP_UNKNOWN.equalsIgnoreCase(checkString);
     }
 
     /**
      * 是否为IP
      */
     public static boolean isIP(String ip) {
-        return StringUtil.hasText(ip) && ip.matches(REGX_IP);
+        return StrUtil.hasText(ip) && ip.matches(REGX_IP);
     }
 
     /**
      * 是否为IP，或 *为间隔的通配符地址
      */
     public static boolean isIpWildCard(String ip) {
-        return StringUtil.hasText(ip) && ip.matches(REGX_IP_WILDCARD);
+        return StrUtil.hasText(ip) && ip.matches(REGX_IP_WILDCARD);
     }
 
     /**
@@ -302,7 +307,7 @@ public class IpUtil {
      * 是否为特定格式如:“10.10.10.1-10.10.10.99”的ip段字符串
      */
     public static boolean isIPSegment(String ipSeg) {
-        return StringUtil.hasText(ipSeg) && ipSeg.matches(REGX_IP_SEG);
+        return StrUtil.hasText(ipSeg) && ipSeg.matches(REGX_IP_SEG);
     }
 
     /**
@@ -335,7 +340,7 @@ public class IpUtil {
      * @return boolean 结果
      */
     public static boolean isMatchedIp(String filter, String ip) {
-        if (StringUtil.hasTextAll(filter, ip)) {
+        if (StrUtil.hasTextAll(filter, ip)) {
             return false;
         }
         String[] ips = filter.split(";");

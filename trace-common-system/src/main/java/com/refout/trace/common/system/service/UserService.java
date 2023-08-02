@@ -35,4 +35,20 @@ public interface UserService {
      */
     User save(User user);
 
+    /**
+     * 根据手机号统计用户是否存在。
+     *
+     * @param phone 手机号
+     * @return 用户是否存在
+     */
+    boolean existWithPhone(String phone);
+
+    /**
+     * 根据用户名统计用户是否存在。
+     *
+     * @param username 用户名
+     * @return 用户是否存在
+     */
+    boolean existWithUsername(String username);
+
 }
