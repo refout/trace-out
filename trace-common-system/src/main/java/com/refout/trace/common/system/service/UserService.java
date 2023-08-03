@@ -41,6 +41,7 @@ public interface UserService {
      * @param phone 手机号
      * @return 用户是否存在
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     boolean existWithPhone(String phone);
 
     /**

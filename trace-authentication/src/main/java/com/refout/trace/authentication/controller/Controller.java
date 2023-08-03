@@ -1,6 +1,7 @@
 package com.refout.trace.authentication.controller;
 
-import com.refout.trace.authentication.domain.*;
+import com.refout.trace.authentication.domain.LoginRequest;
+import com.refout.trace.authentication.domain.RegisterRequest;
 import com.refout.trace.authentication.service.AuthenticationService;
 import com.refout.trace.common.web.domain.Result;
 import jakarta.annotation.Resource;
@@ -9,9 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 /**
- * TODO
+ * 控制器类
+ * <p>
+ * 该类用于处理身份验证相关的请求
  *
  * @author oo w
  * @version 1.0
@@ -23,18 +25,35 @@ public class Controller {
 	@Resource
 	private AuthenticationService authenticationService;
 
+	/**
+	 * 获取验证码
+	 *
+	 * @return {@link Result}响应结果
+	 */
 	@GetMapping("/captcha")
-	public Result<CaptchaResponse> captcha() {
+	public Result captcha() {
 		return Result.success(authenticationService.captcha());
 	}
 
+	/**
+	 * 登录
+	 *
+	 * @param loginRequest {@link LoginRequest}登录请求
+	 * @return {@link Result}响应结果
+	 */
 	@PostMapping("/login")
-	public Result<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+	public Result login(@RequestBody LoginRequest loginRequest) {
 		return Result.success(authenticationService.login(loginRequest));
 	}
 
+	/**
+	 * 注册
+	 *
+	 * @param registerRequest {@link RegisterRequest}注册请求
+	 * @return {@link Result}响应结果
+	 */
 	@PostMapping("/register")
-	public Result<RegisterResponse> register(@RequestBody RegisterRequest registerRequest) {
+	public Result register(@RequestBody RegisterRequest registerRequest) {
 		return Result.success(authenticationService.register(registerRequest));
 	}
 
