@@ -4,12 +4,9 @@ import com.refout.trace.common.util.StrUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
-import java.util.Optional;
 
 /**
  * 获取IP方法
@@ -78,18 +75,6 @@ public class IpUtil {
     }
 
     /**
-     * 获取客户端端口
-     *
-     * @param request {@link ServerHttpRequest}
-     * @return 端口
-     */
-    public static Integer getPort(@NotNull ServerHttpRequest request) {
-        return Optional.ofNullable(request.getRemoteAddress())
-                .map(InetSocketAddress::getPort)
-                .orElse(null);
-    }
-
-    /**
      * 检查是否为内部IP地址
      *
      * @param ip IP地址
@@ -143,7 +128,7 @@ public class IpUtil {
      * @param text IPv4地址
      * @return byte 字节
      */
-    public static byte @Nullable [] textToNumericFormatV4(String text) {
+    public static byte @Nullable [] textToNumericFormatV4(@NotNull String text) {
         if (text.length() == 0) {
             return null;
         }
@@ -313,7 +298,7 @@ public class IpUtil {
     /**
      * 判断ip是否在指定网段中
      */
-    public static boolean ipIsInNetNoCheck(String iparea, String ip) {
+    public static boolean ipIsInNetNoCheck(@NotNull String iparea, @NotNull String ip) {
         int idx = iparea.indexOf('-');
         String[] sips = iparea.substring(0, idx).split("\\.");
         String[] sipe = iparea.substring(idx + 1).split("\\.");
@@ -340,7 +325,7 @@ public class IpUtil {
      * @return boolean 结果
      */
     public static boolean isMatchedIp(String filter, String ip) {
-        if (StrUtil.hasTextAll(filter, ip)) {
+        if (!StrUtil.hasTextAll(filter, ip)) {
             return false;
         }
         String[] ips = filter.split(";");
