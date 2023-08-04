@@ -1,5 +1,7 @@
 package com.refout.trace.common.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Random;
 import java.util.UUID;
 
@@ -42,7 +44,13 @@ public class RandomUtil {
         return random.nextLong(min, max + 1);
     }
 
-    public static String randomUUID(){
+    /**
+     * 生成随机UUID。
+     *
+     * @return 生成的随机UUID字符串
+     */
+    public static @NotNull String randomUUID() {
         return UUID.randomUUID().toString().replace("-", "");
     }
+
 }
