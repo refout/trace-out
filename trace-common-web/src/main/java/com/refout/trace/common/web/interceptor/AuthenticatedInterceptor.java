@@ -42,7 +42,8 @@ public class AuthenticatedInterceptor implements AsyncHandlerInterceptor {
      */
     @Override
     public boolean preHandle(@NotNull HttpServletRequest request,
-                             @NotNull HttpServletResponse response, @NotNull Object handler) {
+                             @NotNull HttpServletResponse response,
+                             @NotNull Object handler) {
         Object attribute = request.getAttribute(JwtFilter.CURRENT_USER);
         if (attribute instanceof Authenticated authenticated) {
             AuthenticatedContextHolder.setContext(authenticated);
