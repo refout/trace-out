@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class PasswordValidatorTest {
 
     @Test
-    public void testIsPasswordValid_WithValidPassword_ShouldReturnTrue() {
+    public void testIsPasswordValidWithValidPasswordShouldReturnTrue() {
         // Arrange
         String password = "Abcdefg1";
         // Act
@@ -17,7 +17,7 @@ public class PasswordValidatorTest {
     }
 
     @Test
-    public void testIsPasswordValid_WithInvalidPasswordLength_ShouldReturnFalse() {
+    public void testIsPasswordValidWithInvalidPasswordLengthShouldReturnFalse() {
         // Arrange
         String password = "Abcdefg";
         // Act
@@ -27,7 +27,7 @@ public class PasswordValidatorTest {
     }
 
     @Test
-    public void testIsPasswordValid_WithInvalidPasswordFormat_ShouldReturnFalse() {
+    public void testIsPasswordValidWithInvalidPasswordFormatShouldReturnFalse() {
         // Arrange
         String password = "abcdefg1";
         // Act
@@ -37,7 +37,7 @@ public class PasswordValidatorTest {
     }
 
     @Test
-    public void testMatches_WithMatchingPasswords_ShouldReturnTrue() {
+    public void testMatchesWithMatchingPasswordsShouldReturnTrue() {
         // Arrange
         String rawPassword = "Abcdefg1";
         String encodedPassword = PasswordValidator.encode(rawPassword);
@@ -48,7 +48,7 @@ public class PasswordValidatorTest {
     }
 
     @Test
-    public void testMatches_WithNonMatchingPasswords_ShouldReturnFalse() {
+    public void testMatchesWithNonMatchingPasswordsShouldReturnFalse() {
         // Arrange
         String rawPassword = "Abcdefg1";
         String encodedPassword = PasswordValidator.encode(rawPassword);
@@ -59,7 +59,7 @@ public class PasswordValidatorTest {
     }
 
     @Test
-    public void testEncode_WithValidPassword_ShouldReturnEncodedPassword() {
+    public void testEncodeWithValidPasswordShouldReturnEncodedPassword() {
         // Arrange
         String rawPassword = "Abcdefg1";
         // Act
