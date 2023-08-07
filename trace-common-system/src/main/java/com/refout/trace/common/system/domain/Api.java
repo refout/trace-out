@@ -11,35 +11,19 @@ import lombok.experimental.Accessors;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Accessors(chain = true, fluent = true)
-@Table(schema = "trace", name = "ts_menu")
-@Entity(name = "ts_menu")
-public class Menu extends AbstractEntity {
+@Accessors(chain = true)
+@Table(name = "ts_api")
+@Entity
+public class Api extends AbstractEntity {
 
-	@Column(name = "menu_name")
-	private String menuName;
-
-	private Long parentId;
-
+	@Column(name = "api_name")
+	private String apiName;
+	@Column(name = "path")
 	private String path;
-
-	private String component;
-
-	private String query;
-
-	private Boolean frame;
-
-	private Boolean cache;
-
-	private String menuType;
-
-	private String visible;
 
 	private String state;
 
 	private String permission;
-
-	private String icon;
 
 	private String remark;
 

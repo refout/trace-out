@@ -33,7 +33,6 @@ create table ts_role
     id          bigint(20)             not null comment '主键id'
         primary key,
     role_name   varchar(30)            not null comment '角色名称',
-    role_key    varchar(100)           not null comment '角色权限字符串',
     state       char(1)    default '0' not null comment '状态（0：正常；1：停用）',
     remark      varchar(500)           null comment '备注',
     create_time datetime               not null comment '创建时间',
@@ -51,38 +50,30 @@ create table ts_user_role
     primary key (user_id, role_id)
 ) comment '用户和角色关联信息';
 
-drop table if exists ts_menu;
-create table ts_menu
+drop table if exists ts_api;
+create table ts_api
 (
     id          bigint(20)             not null comment '主键id'
         primary key,
-    menu_name   varchar(50)            not null comment '菜单名称',
-    parent_id   bigint(20)   default 0 comment '父菜单ID',
+    api_name    varchar(50)            not null comment '接口名称',
     path        varchar(200) default '' comment '路由地址',
-    component   varchar(255) default null comment '组件路径',
-    query       varchar(255) default null comment '路由参数',
-    frame       tinyint(1)   default 1 comment '是否为外链（0是 1否）',
-    cache       tinyint(1)   default 0 comment '是否缓存（0缓存 1不缓存）',
-    menu_type   char(1)      default '' comment '菜单类型（M目录 C菜单 F按钮）',
-    visible     char(1)      default 0 comment '菜单状态（0显示 1隐藏）',
-    state       char(1)      default 0 comment '菜单状态（0正常 1停用）',
+    state       char(1)      default 0 comment '接口状态（0正常 1停用）',
     permission  varchar(100) default null comment '权限标识',
-    icon        varchar(100) default '#' comment '菜单图标',
     remark      varchar(500) default '' comment '备注',
     create_time datetime               not null comment '创建时间',
     create_by   varchar(20)            not null comment '创建人',
     update_time datetime               null comment '更新时间',
     update_by   varchar(20)            null comment '更新人',
     deleted     tinyint(1)   default 0 not null comment '逻辑删除（0：未删除；1：已删除）'
-) comment = '菜单权限表';
+) comment = '接口权限表';
 
-drop table if exists ts_role_menu;
-create table ts_role_menu
+drop table if exists ts_role_api;
+create table ts_role_api
 (
     role_id bigint(20) not null comment '角色ID',
-    menu_id bigint(20) not null comment '菜单ID',
-    primary key (role_id, menu_id)
-) comment = '角色和菜单关联表';
+    api_id bigint(20) not null comment '接口ID',
+    primary key (role_id, api_id)
+) comment = '角色和接口关联表';
 
 drop table if exists ts_login_log;
 create table ts_login_log

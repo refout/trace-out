@@ -7,7 +7,7 @@ import com.refout.trace.authentication.util.CaptchaGenerator;
 import com.refout.trace.authentication.util.PasswordValidator;
 import com.refout.trace.common.system.domain.User;
 import com.refout.trace.common.system.domain.authenticated.Authenticated;
-import com.refout.trace.common.system.service.MenuService;
+import com.refout.trace.common.system.service.ApiService;
 import com.refout.trace.common.system.service.UserService;
 import com.refout.trace.common.util.RandomUtil;
 import com.refout.trace.common.util.StrUtil;
@@ -105,10 +105,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private UserService userService;
 
     /**
-     * 菜单服务
+     * 接口服务
      */
     @Resource
-    private MenuService menuService;
+    private ApiService apiService;
 
     /**
      * 验证码生成
@@ -279,8 +279,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             // 如果用户ID为空，则抛出AuthenticationException异常
             throw new AuthenticationException("用户信息获取失败");
         }
-        // 根据用户ID获取用户的权限菜单列表
-        List<String> permissions = menuService.getPermissionByUserId(id);
+        // 根据用户ID获取用户的权限接口列表
+        List<String> permissions = apiService.getPermissionByUserId(id);
         // 生成一个随机的token ID
         String tokenId = RandomUtil.randomUUID();
         // 根据token ID生成JWT token字符串
@@ -294,7 +294,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         UserAgent agent = UserAgent.parseUserAgentString(userAgent);
         // 获取用户的请求IP地址
         String requestIP = ServletUtil.getRequestIP();
-        // 创建一个Authenticated对象，包括token、用户对象、权限菜单列表、创建时间、过期时间、请求IP地址、浏览器名称和操作系统名称
+        // 创建一个Authenticated对象，包括token、用户对象、权限接口列表、创建时间、过期时间、请求IP地址、浏览器名称和操作系统名称
         Authenticated authenticated = new Authenticated(
                 token, user, new TreeSet<>(permissions), now, expirationTime,
                 requestIP, agent.getBrowser().getName(), agent.getOperatingSystem().getName()
