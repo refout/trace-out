@@ -1,6 +1,8 @@
 package com.refout.trace.common.system.service;
 
 import com.refout.trace.common.system.domain.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * UserService 接口提供与用户领域交互的方法。
@@ -51,5 +53,13 @@ public interface UserService {
      * @return 用户是否存在
      */
     boolean existWithUsername(String username);
+
+    /**
+     * 分页查询
+     *
+     * @param pageable
+     * @return
+     */
+    Page<User> getPage(User user, Pageable pageable);
 
 }
