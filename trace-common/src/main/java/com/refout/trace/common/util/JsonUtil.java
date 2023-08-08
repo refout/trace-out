@@ -2,6 +2,8 @@ package com.refout.trace.common.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -14,6 +16,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -42,14 +45,20 @@ public class JsonUtil {
 		// 配置ObjectMapper
 		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 		// 注册JavaTimeModule，用于处理Java 8日期时间类型
-		JavaTimeModule javaTimeModule = new JavaTimeModule();
-		javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DATE_TIME_FORMATTER));
-		javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DATE_FORMATTER));
-		javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(TIME_FORMATTER));
-		javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DATE_TIME_FORMATTER));
-		javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DATE_FORMATTER));
-		javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(TIME_FORMATTER));
+		SimpleModule javaTimeModule = new JavaTimeModule()
+				.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DATE_TIME_FORMATTER))
+				.addSerializer(LocalDate.class, new LocalDateSerializer(DATE_FORMATTER))
+				.addSerializer(LocalTime.class, new LocalTimeSerializer(TIME_FORMATTER))
+				.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DATE_TIME_FORMATTER))
+				.addDeserializer(LocalDate.class, new LocalDateDeserializer(DATE_FORMATTER))
+				.addDeserializer(LocalTime.class, new LocalTimeDeserializer(TIME_FORMATTER));
 		mapper.registerModule(javaTimeModule);
+
+		SimpleModule simpleModule = new SimpleModule()
+				.addSerializer(BigInteger.class, ToStringSerializer.instance)
+				.addSerializer(Long.class, ToStringSerializer.instance);
+		mapper.registerModule(simpleModule);
+
 		// 配置ObjectMapper，忽略未知属性和空对象
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
