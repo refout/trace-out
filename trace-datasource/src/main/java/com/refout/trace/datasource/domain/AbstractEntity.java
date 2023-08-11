@@ -71,8 +71,8 @@ public abstract class AbstractEntity implements Persistable<Long>, Serializable 
     /**
      * 逻辑删除（0：未删除；1：已删除）
      */
-    @Column(name = "deleted")
-    private Boolean deleted = false;
+    @Column(name = "deleted", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean deleted;
 
     /**
      * 获取ID

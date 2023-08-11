@@ -55,7 +55,7 @@ public class RedisSnowflakeHandler {
      * RedisTemplate
      */
     @Resource
-    private RedisTemplate<String, List<Long>> redisTemplateCollection;
+    private RedisTemplate<String, List<Long>> redisTemplate;
 
     /**
      * 获取Node节点，datacenterId和workerId
@@ -77,7 +77,7 @@ public class RedisSnowflakeHandler {
      * @return datacenterId和workerId
      */
     protected Node findNode() {
-        Set<String> keys = redisTemplateCollection.keys(CacheKey.commonKey());
+        Set<String> keys = redisTemplate.keys(CacheKey.commonKey());
         if (keys == null || keys.isEmpty()) {
             setNodeToRedis(MIN_ID, MIN_ID);
             return new Node(MIN_ID, MIN_ID);
@@ -90,7 +90,7 @@ public class RedisSnowflakeHandler {
                 continue;
             }
 
-            String[] split = key.split(CacheKey.SPLIT_CHAR);
+            String[] split = key.split(CacheKey.SEPARATOR);
             if (split.length < CacheKey.ITEM_COUNT) {
                 continue;
             }
@@ -132,7 +132,7 @@ public class RedisSnowflakeHandler {
         if (thisNode == null) {
             return;
         }
-        redisTemplateCollection.expire(CacheKey.key(thisNode.datacenterId, thisNode.workerId), timeoutHour, TimeUnit.HOURS);
+        redisTemplate.expire(CacheKey.key(thisNode.datacenterId, thisNode.workerId), timeoutHour, TimeUnit.HOURS);
     }
 
     /**
@@ -146,7 +146,7 @@ public class RedisSnowflakeHandler {
         long workerId = thisNode.workerId;
         long datacenterId = thisNode.datacenterId;
         String key = CacheKey.key(datacenterId, workerId);
-        Boolean delete = redisTemplateCollection.delete(key);
+        Boolean delete = redisTemplate.delete(key);
         log.debug("服务停止，从redis中删除当前节点datacenterId:{},workerId:{}，删除结果：{}", datacenterId, workerId, delete);
     }
 
@@ -169,7 +169,7 @@ public class RedisSnowflakeHandler {
                 // 生成缓存键
                 String key = CacheKey.key(datacenterId, workerId);
                 // 判断缓存中是否存在该键
-                Boolean hasKey = redisTemplateCollection.hasKey(key);
+                Boolean hasKey = redisTemplate.hasKey(key);
                 if (hasKey == null || !hasKey) {
                     // 如果缓存中不存在该键，则将节点信息设置到Redis中，并返回节点对象
                     setNodeToRedis(datacenterId, workerId);
@@ -189,7 +189,7 @@ public class RedisSnowflakeHandler {
      */
     private void setNodeToRedis(long datacenterId, long workerId) {
         // 将节点信息存储到Redis中
-        redisTemplateCollection.opsForValue().set(
+        redisTemplate.opsForValue().set(
                 // 使用缓存键作为键名，节点信息作为键值
                 CacheKey.key(datacenterId, workerId), List.of(datacenterId, workerId),
                 // 设置过期时间
