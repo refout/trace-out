@@ -24,6 +24,11 @@ import java.util.Optional;
 public class AuditorAwareConfig implements AuditorAware<String> {
 
     /**
+     * 审计默认值
+     */
+    private static final String DEFAULT_USER = "system";
+
+    /**
      * 获取当前的审计人员，当前操作用户
      *
      * @return 当前的审计人员，当前操作用户
@@ -31,12 +36,13 @@ public class AuditorAwareConfig implements AuditorAware<String> {
     @Override
     public @NotNull Optional<String> getCurrentAuditor() {
         Authenticated authenticated = AuthenticatedContextHolder.getContext();
-        if (authenticated == null || authenticated.user() == null ||
-                !StrUtil.hasText(authenticated.user().getUsername())) {
-            log.error("审计功能，当前操作用户为空");
-            return Optional.empty();
+        if (authenticated == null || authenticated.getUser() == null ||
+                !StrUtil.hasText(authenticated.getUser().getUsername())) {
+            log.error("审计功能，当前操作用户为空，使用默认值填充：{}", DEFAULT_USER);
+
+            return Optional.of(DEFAULT_USER);
         }
-        return Optional.of(authenticated.user().getUsername());
+        return Optional.of(authenticated.getUser().getUsername());
     }
 
 }

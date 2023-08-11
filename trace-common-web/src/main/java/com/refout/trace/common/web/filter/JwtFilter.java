@@ -1,5 +1,6 @@
 package com.refout.trace.common.web.filter;
 
+import com.refout.trace.common.system.config.CommonConfig;
 import com.refout.trace.common.system.domain.authenticated.Authenticated;
 import com.refout.trace.common.web.constant.AuthCacheKey;
 import com.refout.trace.common.web.util.ResponseUtil;
@@ -49,14 +50,8 @@ public class JwtFilter extends OncePerRequestFilter {
     /**
      * 不需要进行JWT验证的路径列表
      */
-    @Value("${trace.security.no-filter:}")
+    @Value("${trace.security.no-filter:[]}")
     private List<String> noFilter;
-
-    /**
-     * token过期时间
-     */
-    @Value("${trace.token.expiration-second}")
-    private int tokenExpirationSecond;
 
     /**
      * Redis模板，用于操作Redis数据库
@@ -119,14 +114,14 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         // 管理员
-        if (authenticated.user().isAdmin()) {
+        if (authenticated.getUser().isAdmin()) {
             refreshToken(userKey);
             request.setAttribute(CURRENT_USER, authenticated);
             filterChain.doFilter(request, response);
             return;
         }
 
-        Set<String> permissions = authenticated.permissions();
+        Set<String> permissions = authenticated.getPermissions();
         if (!permissions.contains(servletPath)) {
             log.info("该用户未分配{}权限，禁止访问", servletPath);
             ResponseUtil.response(response, HttpStatus.UNAUTHORIZED, "无该功能权限，无权访问");
@@ -143,7 +138,7 @@ public class JwtFilter extends OncePerRequestFilter {
      * @param userKey key
      */
     private void refreshToken(final String userKey) {
-        redisTemplateAuthenticated.expire(userKey, tokenExpirationSecond, TimeUnit.SECONDS);
+        redisTemplateAuthenticated.expire(userKey, CommonConfig.TOKEN_EXPIRATION_SECOND.value(), TimeUnit.SECONDS);
     }
 
 }

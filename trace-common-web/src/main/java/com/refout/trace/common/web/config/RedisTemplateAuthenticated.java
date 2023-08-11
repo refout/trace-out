@@ -2,7 +2,6 @@ package com.refout.trace.common.web.config;
 
 import com.refout.trace.common.system.domain.authenticated.Authenticated;
 import com.refout.trace.redis.config.AbstractRedisTemplate;
-import org.springframework.stereotype.Component;
 
 /**
  * Authenticated RedisTemplate
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @version 1.0
  * @since 2023/7/31 13:27
  */
-@Component
+//@Component
 public class RedisTemplateAuthenticated extends AbstractRedisTemplate<String, Authenticated> {
 
     /**

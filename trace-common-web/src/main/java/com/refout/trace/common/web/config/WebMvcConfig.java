@@ -28,7 +28,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     /**
      * 不需要进行JWT验证的路径列表
      */
-    @Value("${trace.security.no-filter:}")
+    @Value("${trace.security.no-filter:[]}")
     private List<String> noFilter;
 
     @Override
