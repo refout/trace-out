@@ -113,4 +113,20 @@ public class StrUtil extends StringUtils {
 		return true;
 	}
 
+    public static String convertToSnakeCase(String input) {
+        if (input == null) {
+            return null;
+        }
+
+        StringBuilder result = new StringBuilder(String.valueOf(Character.toLowerCase(input.charAt(0))));
+        for (int i = 0; i < input.length(); i++) {
+            char currentChar = input.charAt(i);
+            if (Character.isUpperCase(currentChar)) {
+                result.append("_");
+            }
+            result.append(currentChar);
+        }
+
+        return result.toString().toLowerCase();
+    }
 }

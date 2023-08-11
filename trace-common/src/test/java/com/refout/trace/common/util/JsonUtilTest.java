@@ -108,6 +108,93 @@ public class JsonUtilTest {
         Assertions.assertNull(jsonNode);
     }
 
+    @Test
+    public void testIsJsonPositiveCase() {
+        String json = "{\"name\":\"John\", \"age\":30, \"city\":\"New York\"}";
+        Assertions.assertTrue(JsonUtil.isJson(json));
+    }
+
+    @Test
+    public void testIsJsonNegativeCase() {
+        String json = "This is not a valid JSON";
+        Assertions.assertFalse(JsonUtil.isJson(json));
+    }
+
+    @Test
+    public void testIsJsonEmpty() {
+        String json = "{}";
+        Assertions.assertTrue(JsonUtil.isJson(json));
+        json = "{{}}";
+        Assertions.assertFalse(JsonUtil.isJson(json));
+        json = "{{[]}}";
+        Assertions.assertFalse(JsonUtil.isJson(json));
+        json = "[]";
+        Assertions.assertTrue(JsonUtil.isJson(json));
+        json = "[{}]";
+        Assertions.assertTrue(JsonUtil.isJson(json));
+        json = "[{[{},{}]}]";
+        Assertions.assertFalse(JsonUtil.isJson(json));
+    }
+
+    @Test
+    public void testIsJsonAssertionsValidJsonAssertionsReturnsTrue() {
+        String json = "{\"name\":\"John\",\"age\":30,\"city\":\"New York\"}";
+        boolean result = JsonUtil.isJson(json, false);
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    public void testIsJsonAssertionsInvalidJsonAssertionsReturnsFalse() {
+        String json = "{\"name\":\"John\",\"age\":30,\"city\":\"New York\"";
+        boolean result = JsonUtil.isJson(json, false);
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    public void testIsJsonAssertionsEmptyJsonAssertionsReturnsFalse() {
+        String json = "";
+        boolean result = JsonUtil.isJson(json, false);
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    public void testIsJsonObjAssertionsValidJsonObjectAssertionsReturnsTrue() {
+        String json = "{\"name\":\"John\",\"age\":30,\"city\":\"New York\"}";
+        boolean result = JsonUtil.isJsonObj(json, false);
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    public void testIsJsonObjAssertionsInvalidJsonObjectAssertionsReturnsFalse() {
+        String json = "[{\"name\":\"John\",\"age\":30,\"city\":\"New York\"}]";
+        boolean result = JsonUtil.isJsonObj(json, false);
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    public void testIsJsonArrayAssertionsValidJsonArrayAssertionsReturnsTrue() {
+        String json = "[{\"name\":\"John\",\"age\":30,\"city\":\"New York\"}]";
+        boolean result = JsonUtil.isJsonArray(json, false);
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    public void testIsJsonArrayAssertionsInvalidJsonArrayAssertionsReturnsFalse() {
+        String json = "{\"name\":\"John\",\"age\":30,\"city\":\"New York\"}";
+        boolean result = JsonUtil.isJsonArray(json, false);
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    public void testIsJsonNumber() {
+        boolean json = JsonUtil.isJson("1");
+        Assertions.assertFalse(json);
+        boolean json1 = JsonUtil.isJson("1.1");
+        Assertions.assertFalse(json1);
+        boolean json2 = JsonUtil.isJson("-1");
+        Assertions.assertFalse(json2);
+    }
+
     @Data
     @AllArgsConstructor
     @NoArgsConstructor

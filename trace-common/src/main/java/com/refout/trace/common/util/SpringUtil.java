@@ -153,4 +153,8 @@ public final class SpringUtil implements BeanFactoryPostProcessor, ApplicationCo
         return applicationContext.getEnvironment().getRequiredProperty(key);
     }
 
+    public static @NotNull String getApplicationName() {
+        return getRequiredProperty("spring.application.name");
+    }
+
 }

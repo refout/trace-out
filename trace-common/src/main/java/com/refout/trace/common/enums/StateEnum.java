@@ -12,7 +12,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum StateEnum {
+public enum StateEnum implements AbstractDbEnum {
 
 	/**
 	 * 正常状态
