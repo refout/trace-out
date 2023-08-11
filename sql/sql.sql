@@ -109,19 +109,6 @@ create table ts_config
     constraint ts_config_pk unique (name, app)
 ) comment '配置表';
 
-INSERT INTO trace.ts_config (id, name, value, belong, app, history_value, remark, create_time, create_by, update_time,
-                             update_by, deleted)
-VALUES (1, 'trace.token.expiration-second', '1800', '认证', 'common', null, 'token过期时间', '2023-08-10 17:51:02',
-        'admin', null, null, 0);
-INSERT INTO trace.ts_config (id, name, value, belong, app, history_value, remark, create_time, create_by, update_time,
-                             update_by, deleted)
-VALUES (2, 'trace.captcha.expiration-second', '300', '验证码', 'trace-authentication', null, '验证码过期时间',
-        '2023-08-11 05:54:48', 'admin', null, null, 0);
-INSERT INTO trace.ts_config (id, name, value, belong, app, history_value, remark, create_time, create_by, update_time,
-                             update_by, deleted)
-VALUES (3, 'trace.captcha.enable', '1', '验证码', 'trace-authentication', null, '验证码开关', '2023-08-11 05:54:48',
-        'admin', null, null, 0);
-
 drop table if exists ts_operation_log;
 create table ts_operation_log
 (
