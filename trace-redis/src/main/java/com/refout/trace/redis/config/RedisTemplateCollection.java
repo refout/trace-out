@@ -1,7 +1,5 @@
 package com.refout.trace.redis.config;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Collection;
 
 /**
@@ -11,7 +9,8 @@ import java.util.Collection;
  * @version 1.0
  * @since 2023/7/31 13:27
  */
-@Component
+@Deprecated
+//@Component
 @SuppressWarnings("rawtypes")
 public class RedisTemplateCollection extends AbstractRedisTemplate<String, Collection> {
 

@@ -1,7 +1,5 @@
 package com.refout.trace.redis.config;
 
-import org.springframework.stereotype.Component;
-
 /**
  * String RedisTemplate
  *
@@ -9,7 +7,8 @@ import org.springframework.stereotype.Component;
  * @version 1.0
  * @since 2023/7/31 13:28
  */
-@Component
+@Deprecated
+//@Component
 public class RedisTemplateStr extends AbstractRedisTemplate<String, String> {
 
     /**

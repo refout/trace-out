@@ -1,5 +1,7 @@
 package com.refout.trace.redis.constant;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.function.Function;
 
 /**
@@ -20,7 +22,7 @@ public abstract class CacheKeyRule {
     /**
      * 缓存键分隔符
      */
-    public static final String SPLIT_CHAR = ":";
+    public static final String SEPARATOR = ":";
 
     /**
      * 生成缓存键的方法。
@@ -28,16 +30,27 @@ public abstract class CacheKeyRule {
      * @param subKeys 子键数组，用于指定缓存键的子键。
      * @return 生成的缓存键，如果子键为空或长度为0，则返回null。
      */
-    public static String key(String prefix, String... subKeys) {
+    public static @NotNull String key(String prefix, String... subKeys) {
         return key(prefix,String::valueOf, (Object[]) subKeys);
     }
+
+    /**
+     * 生成缓存键的方法，末尾保留分隔符。
+     *
+     * @param subKeys 子键数组，用于指定缓存键的子键。
+     * @return 生成的缓存键，如果子键为空或长度为0，则返回null。
+     */
+    public static String keyEndWithSeparator(String prefix, String... subKeys) {
+        return keyEndWithSeparator(prefix, String::valueOf, (Object[]) subKeys);
+    }
+
     /**
      * 生成缓存键的方法。
      *
      * @param subKeys 子键数组，用于指定缓存键的子键。
      * @return 生成的缓存键，如果子键为空或长度为0，则返回null。
      */
-    public static String key(String prefix, Number... subKeys) {
+    public static @NotNull String key(String prefix, Number... subKeys) {
         return key(prefix, Object::toString, (Object[]) subKeys);
     }
 
@@ -47,7 +60,18 @@ public abstract class CacheKeyRule {
      * @param subKeys 子键数组，用于指定缓存键的子键。
      * @return 生成的缓存键，如果子键为空或长度为0，则返回null。
      */
-    public static String key(String prefix, Function<Object, String> toString, Object... subKeys) {
+    public static @NotNull String key(String prefix, Function<Object, String> toString, Object... subKeys) {
+        String withSeparator = keyEndWithSeparator(prefix, toString, subKeys);
+        return withSeparator.substring(0, withSeparator.lastIndexOf(SEPARATOR));
+    }
+
+    /**
+     * 生成缓存键的方法，末尾保留分隔符。
+     *
+     * @param subKeys 子键数组，用于指定缓存键的子键。
+     * @return 生成的缓存键，如果子键为空或长度为0，则返回null。
+     */
+    public static String keyEndWithSeparator(String prefix, Function<Object, String> toString, Object... subKeys) {
         if (prefix == null) {
             return null;
         }
@@ -55,15 +79,15 @@ public abstract class CacheKeyRule {
             return null;
         }
         StringBuilder key = new StringBuilder();
-        key.append(prefix.toUpperCase()).append(SPLIT_CHAR);
+        key.append(prefix.toUpperCase()).append(SEPARATOR);
         for (Object subKey : subKeys) {
             String str = toString.apply(subKey);
             if (str == null || str.isBlank()) {
                 return null;
             }
-            key.append(str.toUpperCase()).append(SPLIT_CHAR);
+            key.append(str.toUpperCase()).append(SEPARATOR);
         }
-        key.deleteCharAt(key.lastIndexOf(SPLIT_CHAR));
+
         return key.toString();
     }
 

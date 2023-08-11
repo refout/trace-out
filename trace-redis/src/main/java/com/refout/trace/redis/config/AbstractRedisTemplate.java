@@ -3,7 +3,6 @@ package com.refout.trace.redis.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.refout.trace.common.util.JsonUtil;
 import com.refout.trace.common.util.SpringUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
@@ -18,12 +17,12 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @version 1.0
  * @since 2023/7/31 12:46
  */
+@Deprecated
 public abstract class AbstractRedisTemplate<K, V> extends RedisTemplate<K, V> {
 
     /**
      * 构造函数，初始化RedisTemplate实例。
      */
-    @Autowired
     public AbstractRedisTemplate() {
         // 创建JsonUtil的ObjectMapper的副本
         ObjectMapper mapper = JsonUtil.mapper.copy();
