@@ -28,11 +28,10 @@ public class ConfigCheck {
 
         Map<String, AbstractConfig> map = applicationContext.getBeansOfType(AbstractConfig.class);
         List<Field> fields = map.values().stream()
-                .flatMap(bean -> {
-                    Field[] fields1 = ReflectionUtil.getFields(bean.getClass(), Property.class);
-                    return Arrays.stream(fields1);
-                }).
-                toList();
+                .flatMap(bean ->
+                        Arrays.stream(ReflectionUtil.getFields(bean.getClass(), Property.class))
+                )
+                .toList();
 
         for (Field field : fields) {
             try {
