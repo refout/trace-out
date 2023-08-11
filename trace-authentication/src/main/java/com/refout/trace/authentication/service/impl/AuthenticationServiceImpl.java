@@ -5,6 +5,7 @@ import com.refout.trace.authentication.domain.*;
 import com.refout.trace.authentication.service.AuthenticationService;
 import com.refout.trace.authentication.util.CaptchaGenerator;
 import com.refout.trace.authentication.util.PasswordValidator;
+import com.refout.trace.common.system.config.CommonConfig;
 import com.refout.trace.common.system.domain.User;
 import com.refout.trace.common.system.domain.authenticated.Authenticated;
 import com.refout.trace.common.system.service.ApiService;
@@ -49,12 +50,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * 用户名最大长度
      */
     private static final int USERNAME_MAX_LEN = 12;
-
-    /**
-     * token过期时间
-     */
-    @Value("${trace.token.expiration-second}")
-    private int tokenExpirationSecond;
 
     /**
      * 验证码过期时间
@@ -288,7 +283,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         // 获取当前时间
         LocalDateTime now = LocalDateTime.now();
         // 计算token的过期时间
-        LocalDateTime expirationTime = now.plusSeconds(tokenExpirationSecond);
+        LocalDateTime expirationTime = now.plusSeconds(CommonConfig.TOKEN_EXPIRATION_SECOND.value());
         // 获取用户的UserAgent信息
         String userAgent = ServletUtil.getUserAgent();
         UserAgent agent = UserAgent.parseUserAgentString(userAgent);
@@ -301,7 +296,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         );
         // 将Authenticated对象设置到Redis中，并设置过期时间为tokenExpirationSecond秒
         redisTemplateAuthenticated.boundValueOps(CacheKey.userKey(tokenId))
-                .set(authenticated, tokenExpirationSecond, TimeUnit.SECONDS);
+                .set(authenticated, CommonConfig.TOKEN_EXPIRATION_SECOND.value(), TimeUnit.SECONDS);
         // 返回JWT token字符串
         return token;
     }

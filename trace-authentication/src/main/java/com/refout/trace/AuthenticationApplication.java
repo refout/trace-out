@@ -3,11 +3,11 @@ package com.refout.trace;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = "com.refout")
-public class Application {
+@SpringBootApplication
+public class AuthenticationApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(AuthenticationApplication.class, args);
     }
 
 }

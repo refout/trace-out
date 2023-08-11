@@ -11,18 +11,21 @@ spring:
   jpa:
     show-sql: true
   mvc:
-    problemdetails:
+    problem-details:
       enabled: true
     log-request-details: true
   codec:
     log-request-details: true
+  application:
+    name: trace-authentication
+  cache:
+    type: redis
+
 trace:
   snowflake:
     node-id:
       timeout-hour: 1
       redis-expire-job: 0 0/50 * * * ?
-  token:
-    expiration-second: 1800
   captcha:
     expiration-second: 300
     enable: false
