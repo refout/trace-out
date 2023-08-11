@@ -5,7 +5,9 @@ Content-Type: application/json
 
 {
   "principal": "admin",
-  "credentials": "123456"
+  "credentials": "123456",
+  "captchaCode": "tfIe",
+  "captchaId": "6f03cadb061946f090460b09c17e2e5a"
 }
 
 > {%
@@ -53,7 +55,6 @@ Content-Type: application/json
 ### 获取验证码
 GET http://localhost:8080/captcha
 
-
 ### 注册
 POST http://localhost:8080/register
 Accept: application/json
@@ -71,10 +72,11 @@ Authorization: Bearer {{auth_token}}
 }
 
 ###
-GET http://localhost:8080/img
+GET http://localhost:8081/system/user/page
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
+
 
 <> 2023-07-10T000258.500.json
 <> 2023-07-09T235819.500.json

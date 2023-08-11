@@ -91,6 +91,37 @@ create table ts_login_log
     deleted        tinyint(1)   default 0   not null comment '逻辑删除（1：删除 0：正常）'
 ) comment '系统访问记录';
 
+drop table if exists ts_config;
+create table ts_config
+(
+    id            bigint(20)                   not null comment '主键id' primary key,
+    name          varchar(128)                 not null comment '配置名称',
+    value         varchar(512)                 not null comment '配置值',
+    belong        varchar(64)                  not null comment '配置所属功能',
+    app           varchar(64) default 'common' not null comment '配置所属应用,common表示所有应用可用',
+    history_value json                         null comment '历史配置:[{value:1,time:2023-08-08 08:08:08 888}]',
+    remark        varchar(512)                 not null comment '备注',
+    create_time   datetime                     not null comment '创建时间',
+    create_by     varchar(20)                  not null comment '创建人',
+    update_time   datetime                     null comment '更新时间',
+    update_by     varchar(20)                  null comment '更新人',
+    deleted       tinyint(1)  default 0        not null comment '逻辑删除（0：未删除；1：已删除）',
+    constraint ts_config_pk unique (name, app)
+) comment '配置表';
+
+INSERT INTO trace.ts_config (id, name, value, belong, app, history_value, remark, create_time, create_by, update_time,
+                             update_by, deleted)
+VALUES (1, 'trace.token.expiration-second', '1800', '认证', 'common', null, 'token过期时间', '2023-08-10 17:51:02',
+        'admin', null, null, 0);
+INSERT INTO trace.ts_config (id, name, value, belong, app, history_value, remark, create_time, create_by, update_time,
+                             update_by, deleted)
+VALUES (2, 'trace.captcha.expiration-second', '300', '验证码', 'trace-authentication', null, '验证码过期时间',
+        '2023-08-11 05:54:48', 'admin', null, null, 0);
+INSERT INTO trace.ts_config (id, name, value, belong, app, history_value, remark, create_time, create_by, update_time,
+                             update_by, deleted)
+VALUES (3, 'trace.captcha.enable', '1', '验证码', 'trace-authentication', null, '验证码开关', '2023-08-11 05:54:48',
+        'admin', null, null, 0);
+
 drop table if exists ts_operation_log;
 create table ts_operation_log
 (
