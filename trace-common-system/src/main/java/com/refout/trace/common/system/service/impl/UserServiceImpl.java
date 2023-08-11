@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
                 if (column == null) {
                     return;
                 }
-
+                field.setAccessible(true);
                 Object value = field.get(user);
                 if (value == null) {
                     return;
