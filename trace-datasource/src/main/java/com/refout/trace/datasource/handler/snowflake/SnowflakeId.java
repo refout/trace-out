@@ -5,32 +5,44 @@ import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Component;
 
 /**
- * TODO
+ * 自定义的Hibernate标识生成器，用于生成唯一的Snowflake ID。
  *
  * @author oo w
  * @version 1.0
  * @since 2023/7/25 23:08
  */
 @Slf4j
-@Component
 public class SnowflakeId implements IdentifierGenerator {
 
-    private final Snowflake snowflake;
+    /**
+     * id 生成器
+     */
+    private static Snowflake snowflake = null;
 
+    /**
+     * 接受一个RedisSnowflakeHandler对象作为参数，用于获取数据中心ID和工作节点ID
+     *
+     * @param redisSnowflakeHandler {@link RedisSnowflakeHandler}
+     */
     public SnowflakeId(@NotNull RedisSnowflakeHandler redisSnowflakeHandler) {
-        RedisSnowflakeHandler.Node node = redisSnowflakeHandler.getNode();
-        if (node == null) {
-            throw new RuntimeException("datacenter_id,worker_id has been exhausted!");
+        if (snowflake == null) {
+            RedisSnowflakeHandler.Node node = redisSnowflakeHandler.getNode();
+            if (node == null) {
+                throw new RuntimeException("datacenter_id,worker_id has been exhausted!");
+            }
+            snowflake = new Snowflake(node.datacenterId(), node.workerId());
+            log.debug("datacenterId:{},workerId:{}", node.datacenterId(), node.workerId());
         }
-
-        snowflake = new Snowflake(node.datacenterId(), node.workerId());
-        log.debug("datacenterId:{},workerId:{}", node.datacenterId(), node.workerId());
     }
 
-    public long nextId() {
+    /**
+     * 用于直接调用Snowflake对象的nextId方法生成一个新的Snowflake ID
+     *
+     * @return 生成一个新的Snowflake ID
+     */
+    public static long nextId() {
         return snowflake.nextId();
     }
 
