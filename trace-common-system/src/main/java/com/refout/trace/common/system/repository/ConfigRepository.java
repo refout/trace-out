@@ -1,12 +1,12 @@
 package com.refout.trace.common.system.repository;
 
 import com.refout.trace.common.system.domain.Config;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.refout.trace.datasource.repository.BaseRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ConfigRepository extends JpaRepository<Config, Long> {
+public interface ConfigRepository extends BaseRepository<Config, Long> {
 
     @Query(value = """
             select value

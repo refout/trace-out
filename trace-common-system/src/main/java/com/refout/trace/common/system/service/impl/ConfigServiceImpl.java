@@ -5,12 +5,12 @@ import com.refout.trace.common.system.repository.ConfigRepository;
 import com.refout.trace.common.system.service.ConfigService;
 import com.refout.trace.common.util.ConvertUtil;
 import com.refout.trace.common.util.StrUtil;
+import com.refout.trace.datasource.repository.BaseRepository;
 import com.refout.trace.redis.config.key.ConfigCacheKey;
 import jakarta.annotation.Resource;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 /**
@@ -36,7 +36,7 @@ public class ConfigServiceImpl implements ConfigService {
     private ConfigRepository configRepository;
 
     @Override
-    public JpaRepository<Config, Long> repository() {
+    public BaseRepository<Config, Long> repository() {
         return configRepository;
     }
 
