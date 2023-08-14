@@ -10,6 +10,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
   mvc:
     problem-details:
       enabled: true
@@ -31,6 +35,7 @@ logging:
   level:
     web: debug
     com.refout: debug
+    org.org.hibernate.orm.jdbc: trace
 
 server:
   shutdown: graceful

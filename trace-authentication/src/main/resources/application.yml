@@ -10,6 +10,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
   mvc:
     problem-details:
       enabled: true
@@ -26,9 +30,6 @@ trace:
     node-id:
       timeout-hour: 1
       redis-expire-job: 0 0/50 * * * ?
-  captcha:
-    expiration-second: 300
-    enable: false
   login:
     password-error:
       retry-count: 5
@@ -40,6 +41,6 @@ logging:
   level:
     web: debug
     com.refout: debug
-
+    org.org.hibernate.orm.jdbc: trace
 server:
   shutdown: graceful
