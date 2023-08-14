@@ -36,7 +36,7 @@ public class Config extends AbstractEntity {
 	 * 配置值
 	 */
 	@Column(name = "value", nullable = false, length = 512)
-	private String value;
+	private Object value;
 
 	/**
 	 * 配置所属功能

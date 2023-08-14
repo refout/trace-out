@@ -45,6 +45,8 @@ public class RedisSnowflakeHandler {
      */
     private Node thisNode = null;
 
+    private Snowflake snowflake;
+
     /**
      * datacenterId和workerId在redis中过期的时间
      */
@@ -56,6 +58,18 @@ public class RedisSnowflakeHandler {
      */
     @Resource
     private RedisTemplate<String, List<Long>> redisTemplate;
+
+    public Snowflake getSnowflake() {
+        if (snowflake == null) {
+            Node node = getNode();
+            if (node == null) {
+                throw new RuntimeException("datacenter_id,worker_id has been exhausted!");
+            }
+            snowflake = new Snowflake(node.datacenterId(), node.workerId());
+            log.debug("datacenterId:{},workerId:{}", node.datacenterId(), node.workerId());
+        }
+        return snowflake;
+    }
 
     /**
      * 获取Node节点，datacenterId和workerId

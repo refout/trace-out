@@ -1,11 +1,8 @@
 package com.refout.trace.common.system.repository;
 
-
 import com.refout.trace.common.system.domain.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import com.refout.trace.datasource.repository.BaseRepository;
 import org.springframework.stereotype.Repository;
-
 
 /**
  * 提供创建、更新、查询和删除用户的功能
@@ -15,7 +12,7 @@ import org.springframework.stereotype.Repository;
  * @since 2023/5/14 18:24
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
+public interface UserRepository extends BaseRepository<User, Long> {
 
 	/**
 	 * 通过用户名查找用户

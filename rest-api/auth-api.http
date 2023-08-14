@@ -72,11 +72,33 @@ Authorization: Bearer {{auth_token}}
 }
 
 ###
-GET http://localhost:8081/system/user/page
+POST http://localhost:8081/system/user/page
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
+{
+  "page": 1,
+  "size": 10,
+  "query": {
+    "username": "adm",
+    "phone": "13"
+  },
+  "orderBy": [
+    {
+      "direction": 0,
+      "property": "email"
+    },
+    {
+      "direction": 1,
+      "property": "phone"
+    },
+    {
+      "direction": "DESC",
+      "property": "phone1"
+    }
+  ]
+}
 
 <> 2023-07-10T000258.500.json
 <> 2023-07-09T235819.500.json

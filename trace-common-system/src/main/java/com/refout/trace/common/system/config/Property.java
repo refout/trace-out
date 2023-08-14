@@ -44,10 +44,18 @@ public record Property<T>(String key, T def, String app, String belong, String r
     }
 
     public Config to() {
+        Object value;
+        if (def instanceof Number) {
+            value = def;
+        } else if (def instanceof String defStr && !JsonUtil.isJson(defStr)) {
+            value = def;
+        } else {
+            value = JsonUtil.toJson(def);
+        }
         return new Config()
                 .setApp(app)
                 .setName(key)
-                .setValue(JsonUtil.toJson(def))
+                .setValue(value)
                 .setBelong(belong)
                 .setRemark(remark);
     }

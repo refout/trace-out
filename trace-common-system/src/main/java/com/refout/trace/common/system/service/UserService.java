@@ -1,8 +1,7 @@
 package com.refout.trace.common.system.service;
 
 import com.refout.trace.common.system.domain.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.refout.trace.datasource.service.DbBaseService;
 
 /**
  * UserService 接口提供与用户领域交互的方法。
@@ -11,7 +10,7 @@ import org.springframework.data.domain.Pageable;
  * @version 1.0
  * @since 2023/7/26 14:45
  */
-public interface UserService {
+public interface UserService extends DbBaseService<User, Long> {
 
     /**
      * 根据用户名检索用户信息的方法。
@@ -30,14 +29,6 @@ public interface UserService {
     User getByPhone(String phone);
 
     /**
-     * 新增
-     *
-     * @param user 用户信息
-     * @return 是否成功
-     */
-    User save(User user);
-
-    /**
      * 根据手机号统计用户是否存在。
      *
      * @param phone 手机号
@@ -53,13 +44,5 @@ public interface UserService {
      * @return 用户是否存在
      */
     boolean existWithUsername(String username);
-
-    /**
-     * 分页查询
-     *
-     * @param pageable
-     * @return
-     */
-    Page<User> getPage(User user, Pageable pageable);
 
 }

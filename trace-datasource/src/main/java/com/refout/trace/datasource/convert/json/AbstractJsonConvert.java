@@ -3,15 +3,21 @@ package com.refout.trace.datasource.convert.json;
 import com.refout.trace.common.util.JsonUtil;
 import jakarta.persistence.AttributeConverter;
 
+/**
+ * 抽象JSON转换器类，用于将实体属性的值转换为数据库中存储的数据表示形式。
+ *
+ * @param <J> JSON类型
+ * @author oo w
+ * @version 1.0
+ * @since 2023/8/12 23:42
+ */
 public abstract class AbstractJsonConvert<J> implements AttributeConverter<J, String> {
 
     /**
-     * Converts the value stored in the entity attribute into the
-     * data representation to be stored in the database.
+     * 将实体属性的值转换为数据库中存储的数据表示形式。
      *
-     * @param attribute the entity attribute value to be converted
-     * @return the converted data to be stored in the database
-     * column
+     * @param attribute 实体属性的值
+     * @return 存储在数据库列中的转换后的数据
      */
     @Override
     public String convertToDatabaseColumn(J attribute) {
@@ -19,17 +25,12 @@ public abstract class AbstractJsonConvert<J> implements AttributeConverter<J, St
     }
 
     /**
-     * Converts the data stored in the database column into the
-     * value to be stored in the entity attribute.
-     * Note that it is the responsibility of the converter writer to
-     * specify the correct <code>dbData</code> type for the corresponding
-     * column for use by the JDBC driver: i.e., persistence providers are
-     * not expected to do such type conversion.
+     * 将数据库列中存储的数据转换为实体属性的值。
+     * 注意，转换器的编写者有责任为JDBC驱动程序指定正确的<code>dbData</code>类型，以用于对应列的使用。
+     * 持久化提供程序不会执行此类类型转换。
      *
-     * @param dbData the data from the database column to be
-     *               converted
-     * @return the converted value to be stored in the entity
-     * attribute
+     * @param dbData 数据库列中的数据
+     * @return 存储在实体属性中的转换后的值
      */
     @Override
     public J convertToEntityAttribute(String dbData) {
@@ -39,6 +40,11 @@ public abstract class AbstractJsonConvert<J> implements AttributeConverter<J, St
         return JsonUtil.fromJson(dbData, clazz());
     }
 
+    /**
+     * 获取JSON类型的Class对象。
+     *
+     * @return JSON类型的Class对象
+     */
     protected abstract Class<J> clazz();
 
 }

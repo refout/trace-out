@@ -1,5 +1,6 @@
 package com.refout.trace.authentication.service.impl;
 
+import com.refout.trace.authentication.config.AuthenticationConfig;
 import com.refout.trace.authentication.constant.CacheKey;
 import com.refout.trace.authentication.domain.*;
 import com.refout.trace.authentication.service.AuthenticationService;
@@ -50,18 +51,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * 用户名最大长度
      */
     private static final int USERNAME_MAX_LEN = 12;
-
-    /**
-     * 验证码过期时间
-     */
-    @Value("${trace.captcha.expiration-second}")
-    private int captchaExpirationSecond;
-
-    /**
-     * 验证码功能开关
-     */
-    @Value("${trace.captcha.enable}")
-    private boolean captchaEnable;
 
     /**
      * 密码错误重试次数
@@ -115,7 +104,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      */
     @Override
     public CaptchaResponse captcha() {
-        if (!captchaEnable) {
+        if (!AuthenticationConfig.CAPTCHA_ENABLE.value()) {
             log.debug("未开启验证码，不产生验证码");
             return new CaptchaResponse(null, null);
         }
@@ -123,7 +112,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String captchaId = RandomUtil.randomUUID();
         redisTemplateStr.opsForValue().set(
                 CacheKey.captchaKey(captchaId), generate.captchaText(),
-                captchaExpirationSecond, TimeUnit.SECONDS
+                AuthenticationConfig.CAPTCHA_EXPIRATION_SECOND.value(), TimeUnit.SECONDS
         );
         return new CaptchaResponse(captchaId, generate.imageBase64());
     }
@@ -157,7 +146,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * @param loginRequest 登录请求
      */
     private void validateCaptcha(final LoginRequest loginRequest) {
-        if (captchaEnable) {
+        if (AuthenticationConfig.CAPTCHA_ENABLE.value()) {
             String captchaId = loginRequest.captchaId();
             String captchaCode = loginRequest.captchaCode();
             if (!StrUtil.hasTextAll(captchaId, captchaCode)) {
