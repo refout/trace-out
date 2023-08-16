@@ -17,14 +17,14 @@ public class ReflectionUtilTest {
         assertEquals(3, fields.length);
 
         // 断言字段名称和类型符合预期
-        assertEquals("name", fields[0].getName());
-        assertEquals(String.class, fields[0].getType());
+        assertEquals("age", fields[0].getName());
+        assertEquals(int.class, fields[0].getType());
 
-        assertEquals("age", fields[1].getName());
-        assertEquals(int.class, fields[1].getType());
+        assertEquals("active", fields[1].getName());
+        assertEquals(boolean.class, fields[1].getType());
 
-        assertEquals("active", fields[2].getName());
-        assertEquals(boolean.class, fields[2].getType());
+        assertEquals("name", fields[2].getName());
+        assertEquals(String.class, fields[2].getType());
     }
 
     @Test
