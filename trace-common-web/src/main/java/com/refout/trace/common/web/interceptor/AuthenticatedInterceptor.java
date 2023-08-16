@@ -6,7 +6,6 @@ import com.refout.trace.common.web.filter.JwtFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 
@@ -17,7 +16,6 @@ import org.springframework.web.servlet.AsyncHandlerInterceptor;
  * @version 1.0
  * @since 2023/7/31 15:07
  */
-@Component
 public class AuthenticatedInterceptor implements AsyncHandlerInterceptor {
 
     /**
