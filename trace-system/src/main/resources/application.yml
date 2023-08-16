@@ -35,7 +35,7 @@ logging:
   level:
     web: debug
     com.refout: debug
-    org.org.hibernate.orm.jdbc: trace
+    org.hibernate.orm.jdbc: trace
 
 server:
   shutdown: graceful
