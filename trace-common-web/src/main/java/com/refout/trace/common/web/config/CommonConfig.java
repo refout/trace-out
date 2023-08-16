@@ -1,5 +1,7 @@
-package com.refout.trace.common.system.config;
+package com.refout.trace.common.web.config;
 
+import com.refout.trace.common.system.config.AbstractConfig;
+import com.refout.trace.common.system.config.Property;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

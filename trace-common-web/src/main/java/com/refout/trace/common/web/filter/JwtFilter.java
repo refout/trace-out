@@ -1,8 +1,8 @@
 package com.refout.trace.common.web.filter;
 
-import com.refout.trace.common.system.config.CommonConfig;
-import com.refout.trace.common.system.domain.authenticated.Authenticated;
+import com.refout.trace.common.web.config.CommonConfig;
 import com.refout.trace.common.web.constant.AuthCacheKey;
+import com.refout.trace.common.web.domain.Authenticated;
 import com.refout.trace.common.web.util.ResponseUtil;
 import com.refout.trace.common.web.util.jwt.JwtUtil;
 import io.jsonwebtoken.Claims;

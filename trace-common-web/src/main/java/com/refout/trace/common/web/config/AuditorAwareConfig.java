@@ -1,8 +1,8 @@
 package com.refout.trace.common.web.config;
 
-import com.refout.trace.common.system.domain.authenticated.Authenticated;
 import com.refout.trace.common.util.StrUtil;
 import com.refout.trace.common.web.context.AuthenticatedContextHolder;
+import com.refout.trace.common.web.domain.Authenticated;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Configuration;

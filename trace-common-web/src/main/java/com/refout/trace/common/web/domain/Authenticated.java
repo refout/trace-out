@@ -1,4 +1,5 @@
-package com.refout.trace.common.system.domain.authenticated;
+package com.refout.trace.common.web.domain;
+
 import com.refout.trace.common.system.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

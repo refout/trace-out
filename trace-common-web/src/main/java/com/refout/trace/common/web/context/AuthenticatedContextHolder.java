@@ -1,6 +1,6 @@
 package com.refout.trace.common.web.context;
 
-import com.refout.trace.common.system.domain.authenticated.Authenticated;
+import com.refout.trace.common.web.domain.Authenticated;
 import org.springframework.util.Assert;
 
 /**

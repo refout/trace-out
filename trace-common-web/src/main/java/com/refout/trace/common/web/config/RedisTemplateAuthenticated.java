@@ -1,6 +1,6 @@
 package com.refout.trace.common.web.config;
 
-import com.refout.trace.common.system.domain.authenticated.Authenticated;
+import com.refout.trace.common.web.domain.Authenticated;
 import com.refout.trace.redis.config.AbstractRedisTemplate;
 
 /**
@@ -10,6 +10,7 @@ import com.refout.trace.redis.config.AbstractRedisTemplate;
  * @version 1.0
  * @since 2023/7/31 13:27
  */
+@Deprecated
 //@Component
 public class RedisTemplateAuthenticated extends AbstractRedisTemplate<String, Authenticated> {
 

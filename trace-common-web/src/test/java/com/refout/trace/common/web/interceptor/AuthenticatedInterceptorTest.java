@@ -1,7 +1,7 @@
 package com.refout.trace.common.web.interceptor;
 
-import com.refout.trace.common.system.domain.authenticated.Authenticated;
 import com.refout.trace.common.web.context.AuthenticatedContextHolder;
+import com.refout.trace.common.web.domain.Authenticated;
 import com.refout.trace.common.web.filter.JwtFilter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
