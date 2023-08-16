@@ -1,7 +1,13 @@
 package com.refout.trace.common.util;
+
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -49,6 +55,8 @@ public class DateUtil {
      */
     public static final ZoneId ZONE_ID = ZoneId.systemDefault();
 
+    public static final ZoneOffset offset = ZoneOffset.of("+8");
+
     /**
      * 将 LocalDateTime 转换为 Date 对象
      *
@@ -86,8 +94,18 @@ public class DateUtil {
      * @param dateString 要转换的字符串
      * @return 转换后的 LocalDate 对象
      */
-    public static LocalDate toLocalDate(String dateString) {
+    @Contract(pure = true)
+    public static @NotNull LocalDate toLocalDate(String dateString) {
         return LocalDate.parse(dateString, DATE_FORMATTER);
+    }
+
+    public static @NotNull LocalDateTime timestampToLocalDateTime(long timestamp) {
+        Instant instant = Instant.ofEpochMilli(timestamp);
+        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+    }
+
+    public static long LocalDateTimeToTimestamp(@NotNull LocalDateTime time) {
+        return time.toInstant(offset).toEpochMilli();
     }
 
 }

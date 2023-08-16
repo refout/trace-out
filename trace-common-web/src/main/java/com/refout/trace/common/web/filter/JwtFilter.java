@@ -5,6 +5,7 @@ import com.refout.trace.common.web.constant.AuthCacheKey;
 import com.refout.trace.common.web.domain.Authenticated;
 import com.refout.trace.common.web.util.ResponseUtil;
 import com.refout.trace.common.web.util.jwt.JwtUtil;
+import com.refout.trace.common.web.wrapper.RequestHttpServletRequestWrapper;
 import io.jsonwebtoken.Claims;
 import jakarta.annotation.Resource;
 import jakarta.servlet.FilterChain;
@@ -45,7 +46,15 @@ import java.util.concurrent.TimeUnit;
 @WebFilter(filterName = "jwtFilter", urlPatterns = "/*")
 public class JwtFilter extends OncePerRequestFilter {
 
+    /**
+     * 当前用户tag
+     */
     public static final String CURRENT_USER = "CURRENT_USER_AUTHENTICATED";
+
+    /**
+     * 请求时间tag
+     */
+    public static final String REQUEST_TIME = "REQUEST_TIME";
 
     /**
      * 不需要进行JWT验证的路径列表
@@ -75,7 +84,15 @@ public class JwtFilter extends OncePerRequestFilter {
                                     @NotNull FilterChain filterChain) throws IOException, ServletException {
         RequestFacade requestFacade = (RequestFacade) request;
         String servletPath = requestFacade.getServletPath();
+        StringBuffer requestURL = requestFacade.getRequestURL();
+
+        request = new RequestHttpServletRequestWrapper(request);
+
+        // 设置请求时间
+        request.setAttribute(REQUEST_TIME, System.currentTimeMillis());
+
         if (noFilter.contains(servletPath)) {
+            log.info("{}未进行token拦截的接口", requestURL);
             filterChain.doFilter(request, response);
             return;
         }
@@ -84,7 +101,7 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = JwtUtil.getToken(requestFacade);
         // 如果JWT令牌为空或为空字符串，则返回401未授权状态码
         if (token == null) {
-            log.info("{} 未携带token，禁止访问", requestFacade.getRequestURL());
+            log.info("{} 未携带token，禁止访问", requestURL);
             ResponseUtil.response(response, HttpStatus.UNAUTHORIZED, "无权访问");
             return;
         }
