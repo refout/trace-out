@@ -113,12 +113,18 @@ public class StrUtil extends StringUtils {
 		return true;
 	}
 
-    public static String convertToSnakeCase(String input) {
+	/**
+	 * 将字符串转换为下划线命名法
+	 *
+	 * @param input 输入字符串
+	 * @return 转换后的下划线命名法字符串
+	 */
+	public static String convertToSnakeCase(String input) {
         if (input == null) {
-            return null;
-        }
+			return null;
+		}
 
-        StringBuilder result = new StringBuilder(String.valueOf(Character.toLowerCase(input.charAt(0))));
+		StringBuilder result = new StringBuilder();
         for (int i = 0; i < input.length(); i++) {
             char currentChar = input.charAt(i);
             if (Character.isUpperCase(currentChar)) {
@@ -129,4 +135,5 @@ public class StrUtil extends StringUtils {
 
         return result.toString().toLowerCase();
     }
+
 }
