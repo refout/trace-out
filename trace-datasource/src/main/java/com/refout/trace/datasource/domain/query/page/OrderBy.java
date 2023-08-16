@@ -1,4 +1,4 @@
-package com.refout.trace.datasource.domain.page;
+package com.refout.trace.datasource.domain.query.page;
 
 import org.springframework.data.domain.Sort;
 

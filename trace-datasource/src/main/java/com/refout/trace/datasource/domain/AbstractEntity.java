@@ -1,6 +1,9 @@
 package com.refout.trace.datasource.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.refout.trace.datasource.annotation.Deleted;
+import com.refout.trace.datasource.convert.BooleanConverter;
 import com.refout.trace.datasource.handler.snowflake.SnowflakeId;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -13,6 +16,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -43,6 +47,8 @@ public abstract class AbstractEntity implements Persistable<Long>, Serializable 
     /**
      * 创建时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(locale = "zh", timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @CreatedDate
     @Column(name = "create_time")
     private LocalDateTime createTime;
@@ -57,6 +63,8 @@ public abstract class AbstractEntity implements Persistable<Long>, Serializable 
     /**
      * 更新时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(locale = "zh", timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @LastModifiedDate
     @Column(name = "update_time")
     private LocalDateTime updateTime;
@@ -71,7 +79,9 @@ public abstract class AbstractEntity implements Persistable<Long>, Serializable 
     /**
      * 逻辑删除（0：未删除；1：已删除）
      */
-    @Column(name = "deleted", nullable = false, columnDefinition = "tinyint(1) default 0")
+    @Deleted
+    @Convert(converter = BooleanConverter.class)
+    @Column(name = "deleted", nullable = false)
     private boolean deleted;
 
     /**
