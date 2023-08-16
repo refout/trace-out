@@ -55,6 +55,10 @@ public class DateUtil {
      */
     public static final ZoneId ZONE_ID = ZoneId.systemDefault();
 
+    /**
+     * 表示时区偏移量的常量
+     * +8 代表东八区
+     */
     public static final ZoneOffset offset = ZoneOffset.of("+8");
 
     /**
@@ -63,7 +67,7 @@ public class DateUtil {
      * @param localDateTime 要转换的 LocalDateTime 对象
      * @return 转换后的 Date 对象
      */
-    public static Date toDate(LocalDateTime localDateTime) {
+    public static @NotNull Date toDate(@NotNull LocalDateTime localDateTime) {
         ZonedDateTime zdt = localDateTime.atZone(ZONE_ID);
         return Date.from(zdt.toInstant());
     }
@@ -74,7 +78,7 @@ public class DateUtil {
      * @param date 要转换的 Date 对象
      * @return 转换后的 LocalDateTime 对象
      */
-    public static LocalDateTime toLocalDateTime(Date date) {
+    public static LocalDateTime toLocalDateTime(@NotNull Date date) {
         return date.toInstant().atZone(ZONE_ID).toLocalDateTime();
     }
 
@@ -84,7 +88,8 @@ public class DateUtil {
      * @param dateString 要转换的字符串
      * @return 转换后的 LocalDateTime 对象
      */
-    public static LocalDateTime toLocalDateTime(String dateString) {
+    @Contract(pure = true)
+    public static @NotNull LocalDateTime toLocalDateTime(String dateString) {
         return LocalDateTime.parse(dateString, DATE_TIME_FORMATTER);
     }
 
