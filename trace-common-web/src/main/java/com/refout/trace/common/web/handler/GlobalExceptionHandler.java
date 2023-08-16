@@ -75,6 +75,20 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 处理{@link Exception}异常
+     *
+     * @param e       {@link Exception}异常
+     * @param request {@link HttpServletRequest}请求
+     * @return {@link Result}响应结果
+     */
+    @ExceptionHandler(Exception.class)
+    private @NotNull Result handleException(@NotNull Exception e, @NotNull HttpServletRequest request) {
+        printLog(e, request);
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        return Result.fault(status.value(), status.getReasonPhrase());
+    }
+
+    /**
      * 处理异常
      *
      * @param httpStatus {@link HttpStatus}响应状态码
@@ -83,7 +97,7 @@ public class GlobalExceptionHandler {
      * @return {@link Result}响应结果
      */
     private @NotNull Result handleException(@NotNull HttpStatus httpStatus,
-                                            @NotNull SystemException e,
+                                            @NotNull Exception e,
                                             @NotNull HttpServletRequest request) {
         printLog(e, request);
         return Result.fault(httpStatus.value(), e.getMessage());
@@ -96,7 +110,7 @@ public class GlobalExceptionHandler {
      * @param request {@link HttpServletRequest}请求
      */
     private void printLog(@NotNull Exception e, @NotNull HttpServletRequest request) {
-        log.error("请求地址：{}，错误原因：{}", request.getRequestURL(), e.getMessage());
+        log.error("请求地址：{}，错误原因：{}", request.getRequestURL(), e.getMessage(), e);
     }
 
 }
