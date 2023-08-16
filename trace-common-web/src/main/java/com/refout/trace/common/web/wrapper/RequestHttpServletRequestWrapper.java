@@ -11,15 +11,29 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * RequestHttpServletRequestWrapper类是一个自定义的HttpServletRequestWrapper，
+ * 用于包装请求对象并提供对请求体的访问。
+ * <p>
+ * 继承自HttpServletRequestWrapper类。
+ *
+ * @author oo w
+ * @version 1.0
+ * @since 2023/8/16 21:05
+ */
 public class RequestHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
+    /**
+     * 请求体字节数组
+     */
     private final byte[] body;
 
     /**
-     * Constructs a request object wrapping the given request.
+     * 构造一个包装给定请求的请求对象。
      *
-     * @param request The request to wrap
-     * @throws IllegalArgumentException if the request is null
+     * @param request 要包装的请求对象
+     * @throws IllegalArgumentException 如果请求为null
+     * @throws IOException              如果无法读取请求体
      */
     public RequestHttpServletRequestWrapper(HttpServletRequest request) throws IOException {
         super(request);
@@ -27,7 +41,9 @@ public class RequestHttpServletRequestWrapper extends HttpServletRequestWrapper 
     }
 
     /**
-     * The default behavior of this method is to return getReader() on the wrapped request object.
+     * 重写getReader()方法，返回包装请求对象上的getReader()方法的默认行为。
+     *
+     * @return BufferedReader对象，用于读取请求体
      */
     @Override
     public BufferedReader getReader() {
@@ -35,7 +51,9 @@ public class RequestHttpServletRequestWrapper extends HttpServletRequestWrapper 
     }
 
     /**
-     * The default behavior of this method is to return getInputStream() on the wrapped request object.
+     * 重写getInputStream()方法，返回包装请求对象上的getInputStream()方法的默认行为。
+     *
+     * @return ServletInputStream对象，用于读取请求体
      */
     @Override
     public ServletInputStream getInputStream() {

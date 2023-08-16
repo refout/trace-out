@@ -80,7 +80,7 @@ public class StrUtil extends StringUtils {
 	 * @param str      多个字符串
 	 * @return 是否有一个有值
 	 */
-	private static @NotNull Boolean multipleAny(
+	public static @NotNull Boolean multipleAny(
 			Function<CharSequence, Boolean> function, CharSequence... str) {
 		if (str == null) {
 			return false;
@@ -100,7 +100,7 @@ public class StrUtil extends StringUtils {
 	 * @param str      多个字符串
 	 * @return 是否都有值
 	 */
-	private static @NotNull Boolean multipleAll(
+	public static @NotNull Boolean multipleAll(
 			Function<CharSequence, Boolean> function, CharSequence... str) {
 		if (str == null) {
 			return false;

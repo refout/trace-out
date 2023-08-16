@@ -3,6 +3,15 @@ package com.refout.trace.datasource.convert;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
+/**
+ * 用于将Boolean类型属性转换为Integer类型存储在数据库中的转换器。
+ * 实现了AttributeConverter接口。
+ * 使用@Converter(autoApply = true)注解，表示该转换器将自动应用于所有适用的实体属性。
+ *
+ * @author oo w
+ * @version 1.0
+ * @since 2023/8/16 21:08
+ */
 @Converter(autoApply = true)
 public class BooleanConverter implements AttributeConverter<Boolean, Integer> {
 

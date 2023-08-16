@@ -19,6 +19,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * ResponseBodyHandler类是一个全局响应处理器，实现了ResponseBodyAdvice接口。
+ * 它用于在响应返回之前对响应进行处理，记录请求和响应的相关信息。
+ * 使用@Slf4j注解为该类提供日志记录功能。
+ * 使用@RestControllerAdvice注解将该类标记为全局响应处理器。
+ *
+ * @author oo w
+ * @version 1.0
+ * @since 2023/8/16 21:02
+ */
 @Slf4j
 @RestControllerAdvice
 public class ResponseBodyHandler implements ResponseBodyAdvice<Object> {

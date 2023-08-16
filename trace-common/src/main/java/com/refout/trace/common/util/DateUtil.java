@@ -3,12 +3,7 @@ package com.refout.trace.common.util;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 /**
@@ -104,12 +99,27 @@ public class DateUtil {
         return LocalDate.parse(dateString, DATE_FORMATTER);
     }
 
+    /**
+     * 将时间戳转换为 LocalDateTime 对象
+     *
+     * @param timestamp 时间戳
+     * @return 转换后的 LocalDateTime 对象
+     */
     public static @NotNull LocalDateTime timestampToLocalDateTime(long timestamp) {
+        // 使用时间戳创建 Instant 对象
         Instant instant = Instant.ofEpochMilli(timestamp);
+        // 将 Instant 对象转换为 LocalDateTime 对象，使用系统默认时区
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 
+    /**
+     * 将 LocalDateTime 对象转换为时间戳
+     *
+     * @param time LocalDateTime 对象
+     * @return 转换后的时间戳
+     */
     public static long LocalDateTimeToTimestamp(@NotNull LocalDateTime time) {
+        // 将 LocalDateTime 对象转换为 Instant 对象，使用时区偏移量常量 offset
         return time.toInstant(offset).toEpochMilli();
     }
 

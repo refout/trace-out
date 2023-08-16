@@ -41,4 +41,17 @@ public class DateUtilTest {
         Assertions.assertEquals(dateString, convertedDateString);
     }
 
+    /**
+     * 单元测试方法
+     */
+    @Test
+    public void testTimestampToLocalDateTimeAndLocalDateTimeToTimestamp() {
+        long timestamp = 1621234567890L;
+        LocalDateTime dateTime = DateUtil.timestampToLocalDateTime(timestamp);
+        long convertedTimestamp = DateUtil.LocalDateTimeToTimestamp(dateTime);
+
+        // 断言转换前后的时间戳相等
+        Assertions.assertEquals(timestamp, convertedTimestamp);
+    }
+
 }
