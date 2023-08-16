@@ -79,10 +79,32 @@ Authorization: Bearer {{auth_token}}
 
 {
   "page": 1,
-  "size": 10,
+  "size": 3,
   "query": {
-    "username": "adm",
-    "phone": "13"
+    "data": {
+      "username": "zhan",
+      "phone": "13",
+      "delete": false
+    },
+    "scopes": [
+      {
+        "columnName": "createTime",
+        "start": "2023-07-07 00:00:00.000",
+        "end": "2023-08-15 00:00:00.000"
+      }
+    ],
+    "ins": [
+      {
+        "columnName": "id",
+        "in": [
+          1685959186967429120,
+          1685959221486551040,
+          1685959240750989312,
+          1685959248783081472,
+          1686695021438308352
+        ]
+      }
+    ]
   },
   "orderBy": [
     {
@@ -95,7 +117,7 @@ Authorization: Bearer {{auth_token}}
     },
     {
       "direction": "DESC",
-      "property": "phone1"
+      "property": "username"
     }
   ]
 }
