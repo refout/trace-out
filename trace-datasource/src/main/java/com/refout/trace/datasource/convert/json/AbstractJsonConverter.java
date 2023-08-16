@@ -11,7 +11,7 @@ import jakarta.persistence.AttributeConverter;
  * @version 1.0
  * @since 2023/8/12 23:42
  */
-public abstract class AbstractJsonConvert<J> implements AttributeConverter<J, String> {
+public abstract class AbstractJsonConverter<J> implements AttributeConverter<J, String> {
 
     /**
      * 将实体属性的值转换为数据库中存储的数据表示形式。

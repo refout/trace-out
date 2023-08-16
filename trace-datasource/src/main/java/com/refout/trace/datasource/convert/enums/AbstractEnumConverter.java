@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  * @version 1.0
  * @since 2023/8/12 23:42
  */
-public abstract class AbstractEnumConvert<E extends AbstractDbEnum> implements AttributeConverter<E, String> {
+public abstract class AbstractEnumConverter<E extends AbstractDbEnum> implements AttributeConverter<E, String> {
 
     /**
      * 将枚举类型转换为数据库列的值。

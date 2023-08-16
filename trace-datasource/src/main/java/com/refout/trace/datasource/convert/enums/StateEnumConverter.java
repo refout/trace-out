@@ -11,7 +11,7 @@ import jakarta.persistence.Converter;
  * @since 2023/8/12 23:42
  */
 @Converter(autoApply = true)
-public class StateEnumConvert extends AbstractEnumConvert<StateEnum> {
+public class StateEnumConverter extends AbstractEnumConverter<StateEnum> {
 
     /**
      * 获取状态枚举类型的数组。
