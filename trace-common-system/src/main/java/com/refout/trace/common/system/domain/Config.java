@@ -1,6 +1,6 @@
 package com.refout.trace.common.system.domain;
 
-import com.refout.trace.common.system.repository.convert.HistoryValueConvert;
+import com.refout.trace.common.system.repository.convert.HistoryValueConverter;
 import com.refout.trace.datasource.domain.AbstractEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -53,7 +53,7 @@ public class Config extends AbstractEntity {
 	/**
 	 * 历史配置:[{value:1,time:2023-08-08 08:08:08 888}]
 	 */
-	@Convert(converter = HistoryValueConvert.class)
+	@Convert(converter = HistoryValueConverter.class)
 	@Column(name = "history_value", columnDefinition = "json")
 	private HistoryValue historyValue;
 

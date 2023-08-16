@@ -2,8 +2,10 @@ package com.refout.trace.common.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.refout.trace.common.enums.StateEnum;
+import com.refout.trace.datasource.convert.enums.StateEnumConverter;
 import com.refout.trace.datasource.domain.AbstractEntity;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -63,13 +65,14 @@ public class User extends AbstractEntity {
      * 用户类型。 (0: 管理员; 1: 普通用户)
      */
     @Column(name = "user_type")
-    private String userType = "1";
+    private String userType;
 
     /**
      * 用户的状态。 (0: 正常; 1: 停用)
      */
+    @Convert(converter = StateEnumConverter.class)
     @Column(name = "state")
-    private String state = StateEnum.NORMAL.getCode();
+    private StateEnum state;
 
     @JsonIgnore
     public boolean isAdmin() {
