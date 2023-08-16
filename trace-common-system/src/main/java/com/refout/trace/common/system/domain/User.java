@@ -64,14 +64,14 @@ public class User extends AbstractEntity {
     /**
      * 用户类型。 (0: 管理员; 1: 普通用户)
      */
-    @Column(name = "user_type")
+    @Column(name = "user_type", columnDefinition = "char(1) default '1'", insertable = false)
     private String userType;
 
     /**
      * 用户的状态。 (0: 正常; 1: 停用)
      */
     @Convert(converter = StateEnumConverter.class)
-    @Column(name = "state")
+    @Column(name = "state", columnDefinition = "char(1) default '0'", insertable = false)
     private StateEnum state;
 
     @JsonIgnore

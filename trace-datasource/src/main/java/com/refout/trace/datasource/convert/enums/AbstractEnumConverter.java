@@ -4,6 +4,7 @@ import com.refout.trace.common.enums.AbstractDbEnum;
 import com.refout.trace.datasource.exception.DatasourceException;
 import jakarta.persistence.AttributeConverter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * 抽象枚举转换器类，用于将枚举类型转换为数据库列的值。
@@ -22,8 +23,8 @@ public abstract class AbstractEnumConverter<E extends AbstractDbEnum> implements
      * @return 数据库列的值
      */
     @Override
-    public String convertToDatabaseColumn(@NotNull E attribute) {
-        return attribute.getCode();
+    public String convertToDatabaseColumn(@Nullable E attribute) {
+        return attribute == null ? null : attribute.getCode();
     }
 
     /**
