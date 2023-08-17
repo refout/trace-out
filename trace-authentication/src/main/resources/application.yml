@@ -44,3 +44,11 @@ logging:
     org.org.hibernate.orm.jdbc: trace
 server:
   shutdown: graceful
+  port: 8080
+
+# 开启监控所有项
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
