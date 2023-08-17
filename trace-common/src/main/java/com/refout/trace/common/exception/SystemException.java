@@ -1,6 +1,6 @@
 package com.refout.trace.common.exception;
 
-public class SystemException extends RuntimeException{
+public class SystemException extends RuntimeException {
 
     /**
      * Constructs a new runtime exception with {@code null} as its

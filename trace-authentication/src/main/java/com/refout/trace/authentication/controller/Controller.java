@@ -1,10 +1,14 @@
 package com.refout.trace.authentication.controller;
 
+import com.refout.trace.authentication.domain.CaptchaResponse;
 import com.refout.trace.authentication.domain.LoginRequest;
+import com.refout.trace.authentication.domain.LoginResponse;
 import com.refout.trace.authentication.domain.RegisterRequest;
+import com.refout.trace.authentication.domain.RegisterResponse;
 import com.refout.trace.authentication.service.AuthenticationService;
 import com.refout.trace.common.web.domain.Result;
 import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,8 +35,8 @@ public class Controller {
 	 * @return {@link Result}响应结果
 	 */
 	@GetMapping("/captcha")
-	public Result captcha() {
-		return Result.success(authenticationService.captcha());
+	public CaptchaResponse captcha() {
+		return authenticationService.captcha();
 	}
 
 	/**
@@ -42,8 +46,16 @@ public class Controller {
 	 * @return {@link Result}响应结果
 	 */
 	@PostMapping("/login")
-	public Result login(@RequestBody LoginRequest loginRequest) {
-		return Result.success(authenticationService.login(loginRequest));
+	public LoginResponse login(@RequestBody LoginRequest loginRequest) {
+		return authenticationService.login(loginRequest);
+	}
+
+	/**
+	 * 登出
+	 */
+	@DeleteMapping("/logout")
+	public void logout() {
+		authenticationService.logout();
 	}
 
 	/**
@@ -53,8 +65,8 @@ public class Controller {
 	 * @return {@link Result}响应结果
 	 */
 	@PostMapping("/register")
-	public Result register(@RequestBody RegisterRequest registerRequest) {
-		return Result.success(authenticationService.register(registerRequest));
+	public RegisterResponse register(@RequestBody RegisterRequest registerRequest) {
+		return authenticationService.register(registerRequest);
 	}
 
 }

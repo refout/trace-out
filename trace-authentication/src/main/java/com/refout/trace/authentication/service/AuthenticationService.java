@@ -1,6 +1,10 @@
 package com.refout.trace.authentication.service;
 
-import com.refout.trace.authentication.domain.*;
+import com.refout.trace.authentication.domain.CaptchaResponse;
+import com.refout.trace.authentication.domain.LoginRequest;
+import com.refout.trace.authentication.domain.LoginResponse;
+import com.refout.trace.authentication.domain.RegisterRequest;
+import com.refout.trace.authentication.domain.RegisterResponse;
 
 public interface AuthenticationService {
 
@@ -18,6 +22,11 @@ public interface AuthenticationService {
      * @return 登录响应
      */
     LoginResponse login(final LoginRequest loginRequest);
+
+    /**
+     * 登出
+     */
+    void logout();
 
     /**
      * 注册

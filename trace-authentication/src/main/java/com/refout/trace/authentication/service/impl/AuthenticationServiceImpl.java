@@ -2,7 +2,11 @@ package com.refout.trace.authentication.service.impl;
 
 import com.refout.trace.authentication.config.AuthenticationConfig;
 import com.refout.trace.authentication.constant.CacheKey;
-import com.refout.trace.authentication.domain.*;
+import com.refout.trace.authentication.domain.CaptchaResponse;
+import com.refout.trace.authentication.domain.LoginRequest;
+import com.refout.trace.authentication.domain.LoginResponse;
+import com.refout.trace.authentication.domain.RegisterRequest;
+import com.refout.trace.authentication.domain.RegisterResponse;
 import com.refout.trace.authentication.service.AuthenticationService;
 import com.refout.trace.authentication.util.CaptchaGenerator;
 import com.refout.trace.authentication.util.PasswordValidator;
@@ -12,6 +16,8 @@ import com.refout.trace.common.system.service.UserService;
 import com.refout.trace.common.util.RandomUtil;
 import com.refout.trace.common.util.StrUtil;
 import com.refout.trace.common.web.config.CommonConfig;
+import com.refout.trace.common.web.constant.AuthCacheKey;
+import com.refout.trace.common.web.context.AuthenticatedContextHolder;
 import com.refout.trace.common.web.domain.Authenticated;
 import com.refout.trace.common.web.exception.AuthenticationException;
 import com.refout.trace.common.web.util.ServletUtil;
@@ -291,6 +297,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     /**
+     * 登出
+     */
+    @Override
+    public void logout() {
+        Authenticated context = AuthenticatedContextHolder.getContext();
+        if (context == null) {
+            throw new AuthenticationException("已注销");
+        }
+
+        String userKey = AuthCacheKey.userKeyFromToken(context.getToken());
+        if (!StrUtil.hasText(userKey)) {
+            throw new AuthenticationException("已注销");
+        }
+
+        Boolean delete = redisTemplateAuthenticated.delete(userKey);
+        if (delete == null || !delete) {
+            throw new AuthenticationException("注销失败");
+        }
+    }
+
+    /**
      * 注册
      *
      * @param request 注册请求信息
@@ -298,25 +325,41 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      */
     @Override
     public RegisterResponse register(@Nullable RegisterRequest request) {
-        assert request != null : new AuthenticationException("注册信息不能为空");
-
+        if (request == null) {
+            throw new AssertionError(new AuthenticationException("注册信息不能为空"));
+        }
         String username = request.username();
         String password = request.password();
 
-        assert StrUtil.hasTextAll(username, password) : new AuthenticationException("用户名或密码不能为空");
-        assert !StrUtil.containsWhitespace(username) : new AuthenticationException("用户名不能包含空格");
-        assert !StrUtil.containsWhitespace(password) : new AuthenticationException("密码不能包含空格");
+        if (!StrUtil.hasTextAll(username, password)) {
+            throw new AssertionError(new AuthenticationException("用户名或密码不能为空"));
+        }
+        if (StrUtil.containsWhitespace(username)) {
+            throw new AssertionError(new AuthenticationException("用户名不能包含空格"));
+        }
+        if (StrUtil.containsWhitespace(password)) {
+            throw new AssertionError(new AuthenticationException("密码不能包含空格"));
+        }
 
-        assert username.length() >= USERNAME_MIN_LEN &&
-                username.length() <= USERNAME_MAX_LEN :
-                new AuthenticationException(
-                        String.format("用户名长度在 %s ~ %s 之间", USERNAME_MIN_LEN, USERNAME_MAX_LEN)
-                );
+        if (username.length() < USERNAME_MIN_LEN ||
+                username.length() > USERNAME_MAX_LEN) {
+            throw new AssertionError(new AuthenticationException(
+                    String.format("用户名长度在 %s ~ %s 之间", USERNAME_MIN_LEN, USERNAME_MAX_LEN)
+            ));
+        }
 
-        assert PasswordValidator.isPasswordValid(password) : new AuthenticationException("密码强度不满足要求");
-        assert !userService.existWithUsername(username) : new AuthenticationException("用户名已注册");
-        assert !userService.existWithPhone(username) : new AuthenticationException("手机号的用户名已注册");
-        assert !userService.existWithPhone(request.phone()) : new AuthenticationException("手机号已注册");
+        if (!PasswordValidator.isPasswordValid(password)) {
+            throw new AssertionError(new AuthenticationException("密码强度不满足要求"));
+        }
+        if (userService.existWithUsername(username)) {
+            throw new AssertionError(new AuthenticationException("用户名已注册"));
+        }
+        if (userService.existWithPhone(username)) {
+            throw new AssertionError(new AuthenticationException("手机号的用户名已注册"));
+        }
+        if (userService.existWithPhone(request.phone())) {
+            throw new AssertionError(new AuthenticationException("手机号已注册"));
+        }
 
         User user = new User()
                 .setUsername(username)

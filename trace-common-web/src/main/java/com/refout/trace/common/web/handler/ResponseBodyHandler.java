@@ -2,10 +2,12 @@ package com.refout.trace.common.web.handler;
 
 import com.refout.trace.common.util.DateUtil;
 import com.refout.trace.common.util.JsonUtil;
+import com.refout.trace.common.web.domain.Result;
 import com.refout.trace.common.web.filter.JwtFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.MethodParameter;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
@@ -67,7 +69,7 @@ public class ResponseBodyHandler implements ResponseBodyAdvice<Object> {
                                   @NotNull Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   @NotNull ServerHttpRequest request,
                                   @NotNull ServerHttpResponse response) {
-
+        Result result = body instanceof Result r ? r : Result.success(body);
         try {
             ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
             InputStream inputStream = servletRequest.getBody();
@@ -89,15 +91,19 @@ public class ResponseBodyHandler implements ResponseBodyAdvice<Object> {
                     request.getURI(),
                     request.getMethod(),
                     JsonUtil.toJsonObject(requestBody),
-                    JsonUtil.toJson(body),
+                    JsonUtil.toJson(result),
                     DateUtil.timestampToLocalDateTime(end).format(DateUtil.DATE_TIME_FORMATTER),
                     end - start
             );
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error("响应结果处理失败", e);
+            return Result.fault(
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()
+            );
         }
 
-        return body;
+        return result;
     }
 
 }

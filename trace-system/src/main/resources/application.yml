@@ -40,6 +40,8 @@ logging:
 server:
   shutdown: graceful
   port: 8081
+  servlet:
+    context-path: /system
 
 # 开启监控所有项
 management:

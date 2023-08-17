@@ -80,4 +80,9 @@ public record Result(int code, String msg, Object data) {
         return success(null, data);
     }
 
+    @Contract("-> new")
+    public static @NotNull Result success() {
+        return success(null, null);
+    }
+
 }
