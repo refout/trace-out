@@ -57,7 +57,6 @@ public class DateUtil {
 
     /**
      * 表示时区偏移量的常量
-     * +8 代表东八区
      */
     public static final ZoneOffset OFFSET = ZONE_ID.getRules().getOffset(Instant.now());
 
