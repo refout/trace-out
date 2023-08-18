@@ -2,6 +2,13 @@ package com.refout.trace.common.exception;
 
 import com.refout.trace.common.util.Assert;
 
+/**
+ * 系统异常
+ *
+ * @author oo w
+ * @version 1.0
+ * @since 2023/8/18 13:54
+ */
 public class SystemException extends RuntimeException {
 
     /**

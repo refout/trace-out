@@ -4,6 +4,13 @@ import com.refout.trace.common.exception.AbstractExceptionAssert;
 import com.refout.trace.common.exception.SystemException;
 import com.refout.trace.common.util.Assert;
 
+/**
+ * 数据源异常
+ *
+ * @author oo w
+ * @version 1.0
+ * @since 2023/8/18 13:55
+ */
 public class DatasourceException extends SystemException {
 
     /**
