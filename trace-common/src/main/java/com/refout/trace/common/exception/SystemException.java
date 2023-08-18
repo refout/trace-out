@@ -1,6 +1,13 @@
 package com.refout.trace.common.exception;
 
+import com.refout.trace.common.util.Assert;
+
 public class SystemException extends RuntimeException {
+
+    /**
+     * 异常断言
+     */
+    public final static AbstractExceptionAssert ofAssert = Assert.of(SystemException::new);
 
     /**
      * Constructs a new runtime exception with {@code null} as its
