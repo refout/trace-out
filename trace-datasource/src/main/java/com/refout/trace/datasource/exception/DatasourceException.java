@@ -1,8 +1,6 @@
 package com.refout.trace.datasource.exception;
 
-import com.refout.trace.common.exception.AbstractExceptionAssert;
 import com.refout.trace.common.exception.SystemException;
-import com.refout.trace.common.util.Assert;
 
 /**
  * 数据源异常
@@ -12,11 +10,6 @@ import com.refout.trace.common.util.Assert;
  * @since 2023/8/18 13:55
  */
 public class DatasourceException extends SystemException {
-
-    /**
-     * 异常断言
-     */
-    public final static AbstractExceptionAssert ofAssert = Assert.of(SystemException::new);
 
     /**
      * Constructs a new runtime exception with {@code null} as its

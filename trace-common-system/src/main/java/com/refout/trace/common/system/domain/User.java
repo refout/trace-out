@@ -62,12 +62,6 @@ public class User extends AbstractEntity {
     private String avatar;
 
     /**
-     * 用户类型。 (0: 管理员; 1: 普通用户)
-     */
-    @Column(name = "user_type", columnDefinition = "char(1) default '1'", insertable = false)
-    private String userType;
-
-    /**
      * 用户的状态。 (0: 正常; 1: 停用)
      */
     @Convert(converter = StateEnumConverter.class)
@@ -76,7 +70,7 @@ public class User extends AbstractEntity {
 
     @JsonIgnore
     public boolean isAdmin() {
-        return userType != null && userType.equals("0");
+        return Long.valueOf(1L).equals(getId());
     }
 
 }

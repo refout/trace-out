@@ -1,8 +1,6 @@
 package com.refout.trace.common.web.exception;
 
-import com.refout.trace.common.exception.AbstractExceptionAssert;
 import com.refout.trace.common.exception.SystemException;
-import com.refout.trace.common.util.Assert;
 
 /**
  * 授权异常
@@ -12,11 +10,6 @@ import com.refout.trace.common.util.Assert;
  * @since 2023/7/31 18:00
  */
 public class AuthorizationException extends SystemException {
-
-    /**
-     * 异常断言
-     */
-    public final static AbstractExceptionAssert ofAssert = Assert.of(SystemException::new);
 
     /**
      * Constructs a new runtime exception with {@code null} as its

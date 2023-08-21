@@ -15,7 +15,6 @@ create table ts_user
     phone       varchar(20)            not null comment '手机号',
     gender      char(1)    default '2' null comment '性别（0：男；1：女；2：未知）',
     avatar      varchar(100)           null comment '头像地址',
-    user_type   char(1)    default '1' not null comment '用户类型（0：管理员；1：普通用户）',
     state       char(1)    default '0' not null comment '状态（0：正常；1：停用）',
     create_time datetime               not null comment '创建时间',
     create_by   varchar(20)            not null comment '创建人',
@@ -24,8 +23,10 @@ create table ts_user
     deleted     tinyint(1) default 0   not null comment '逻辑删除（0：未删除；1：已删除）'
 )    comment '用户信息';
 
-INSERT INTO ts_user (id, username, password, nickname, email, phone, gender, avatar, user_type, state, create_time, create_by, update_time, update_by, deleted)
-VALUES (1, 'admin', '$2a$10$QqJlLWbLfKx2JvQOi7.iVuiSOHt0YmUMxP7U4ikrNx8qDDLKW27zy', '管理员', null, '18000000000', '2', null, '0', '0', sysdate(), 'admin', null, null, 0);
+INSERT INTO ts_user (id, username, password, nickname, email, phone, gender, avatar, state, create_time, create_by,
+                     update_time, update_by, deleted)
+VALUES (1, 'admin', '$2a$10$QqJlLWbLfKx2JvQOi7.iVuiSOHt0YmUMxP7U4ikrNx8qDDLKW27zy', '管理员', null, '18000000000', '2',
+        null, '0', sysdate(), 'admin', null, null, 0);
 
 drop table if exists ts_role;
 create table ts_role
