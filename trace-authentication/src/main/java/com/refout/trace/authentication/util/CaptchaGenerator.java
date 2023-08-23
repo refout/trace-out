@@ -1,5 +1,6 @@
 package com.refout.trace.authentication.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,6 +20,7 @@ import java.util.Random;
  * @version 1.0
  * @since 2023/6/26 12:04
  */
+@Slf4j
 public class CaptchaGenerator {
 
 	/**
@@ -123,7 +125,7 @@ public class CaptchaGenerator {
 			ImageIO.write(image, format, bos);
 			imageBytes = bos.toByteArray();
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("图片转base64错误", e);
 		}
 
 		// 将字节数组转换成base64字符串

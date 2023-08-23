@@ -2,7 +2,6 @@ package com.refout.trace.authentication.constant;
 
 
 import com.refout.trace.common.web.constant.AuthCacheKey;
-import com.refout.trace.redis.constant.CacheKeyRule;
 
 public class CacheKey extends AuthCacheKey {
 

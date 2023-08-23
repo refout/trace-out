@@ -1,0 +1,49 @@
+name: IntelliJ Agent - Maven Test
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'releases/*'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Validate Maven Wrapper
+        run: mvn --version
+
+      - name: Run Tests
+        run: mvn test
+
+      - name: Archive coverage data
+        uses: actions/upload-artifact@v3
+        with:
+          name: maven-coverage-data
+          path: .qodana/code-coverage
+
+
+      - name: 'Qodana Scan'
+        uses: JetBrains/qodana-action@main
+        with:
+          pr-mode: false
+          args: "-i,.,--linter,jetbrains/qodana-jvm:2023.2"
+          push-fixes: pull-request
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }} # read the steps about it below
