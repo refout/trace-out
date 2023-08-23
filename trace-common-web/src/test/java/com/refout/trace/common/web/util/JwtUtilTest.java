@@ -16,14 +16,14 @@ public class JwtUtilTest {
     public void testCreateTokenWithValidJti() {
         String token = JwtUtil.createToken("12345");
         Assertions.assertNotNull(token);
-        Assertions.assertTrue(token.length() > 0);
+        Assertions.assertFalse(token.isEmpty());
     }
 
     @Test
     public void testCreateTokenWithNullJti() {
         String token = JwtUtil.createToken(null);
         Assertions.assertNotNull(token);
-        Assertions.assertTrue(token.length() > 0);
+        Assertions.assertFalse(token.isEmpty());
     }
 
     @Test
@@ -33,14 +33,14 @@ public class JwtUtilTest {
         claims.put("role", "admin");
         String token = JwtUtil.createToken(claims, "12345");
         Assertions.assertNotNull(token);
-        Assertions.assertTrue(token.length() > 0);
+        Assertions.assertFalse(token.isEmpty());
     }
 
     @Test
     public void testCreateTokenWithNullClaimsAndValidJti() {
         String token = JwtUtil.createToken(null, "12345");
         Assertions.assertNotNull(token);
-        Assertions.assertTrue(token.length() > 0);
+        Assertions.assertFalse(token.isEmpty());
     }
 
     @Test

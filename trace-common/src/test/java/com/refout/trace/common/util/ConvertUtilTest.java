@@ -1,6 +1,7 @@
 package com.refout.trace.common.util;
 
 import lombok.Data;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,16 +20,21 @@ public class ConvertUtilTest {
     @Mock
     private ConfigurableListableBeanFactory beanFactory;
 
+    private AutoCloseable autoCloseable;
+
     @BeforeEach
     void setup() {
-        MockitoAnnotations.openMocks(this);
+        autoCloseable = MockitoAnnotations.openMocks(this);
         Mockito.when(beanFactory.getBean(ConversionService.class)).thenReturn(conversionService);
+    }
+
+    @AfterEach
+    public void after() throws Exception {
+        autoCloseable.close();
     }
 
     @Test
     void testConvert() {
-//        Mockito.when(SpringUtil.getBean(ConversionService.class)).thenReturn(conversionService);
-//        Mockito.when(beanFactory.getBean(ConversionService.class)).thenReturn(conversionService);
         ReflectionTestUtils.setField(SpringUtil.class, "beanFactory", beanFactory);
         // Test case 1: value is null
         Integer result1 = ConvertUtil.convert(null, 10, Integer.class);

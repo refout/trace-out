@@ -1,9 +1,7 @@
 package com.refout.trace.common.web.filter;
 
-import com.refout.trace.common.web.util.ResponseUtil;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;

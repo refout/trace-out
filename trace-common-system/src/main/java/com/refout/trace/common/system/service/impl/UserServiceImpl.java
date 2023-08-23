@@ -14,7 +14,9 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     /**
-     * @return
+     * 获取对应实体类的Repository
+     *
+     * @return 实体类对应的Repository
      */
     @Override
     public BaseRepository<User, Long> repository() {

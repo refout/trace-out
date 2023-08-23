@@ -54,20 +54,20 @@ public class IpUtil {
             return IP_UNKNOWN;
         }
         String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || ip.length() == 0 || IP_UNKNOWN.equalsIgnoreCase(ip)) {
+        if (ip == null || ip.isEmpty() || IP_UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");
         }
-        if (ip == null || ip.length() == 0 || IP_UNKNOWN.equalsIgnoreCase(ip)) {
+        if (ip == null || ip.isEmpty() || IP_UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("X-Forwarded-For");
         }
-        if (ip == null || ip.length() == 0 || IP_UNKNOWN.equalsIgnoreCase(ip)) {
+        if (ip == null || ip.isEmpty() || IP_UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("WL-Proxy-Client-IP");
         }
-        if (ip == null || ip.length() == 0 || IP_UNKNOWN.equalsIgnoreCase(ip)) {
+        if (ip == null || ip.isEmpty() || IP_UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("X-Real-IP");
         }
 
-        if (ip == null || ip.length() == 0 || IP_UNKNOWN.equalsIgnoreCase(ip)) {
+        if (ip == null || ip.isEmpty() || IP_UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
         }
 
@@ -129,7 +129,7 @@ public class IpUtil {
      * @return byte 字节
      */
     public static byte @Nullable [] textToNumericFormatV4(@NotNull String text) {
-        if (text.length() == 0) {
+        if (text.isEmpty()) {
             return null;
         }
 
