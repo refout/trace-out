@@ -36,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: maven-coverage-data
-          path: "trace-**/.qodana/code-coverage"
+          path: .qodana/code-coverage
 
 
       - name: 'Qodana Scan'
