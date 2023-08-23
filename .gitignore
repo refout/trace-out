@@ -19,6 +19,7 @@ target/
 /.idea/httpRequests/
 
 **/.qodana/code-coverage/output*.*
+**/.qodana/code-coverage/*
 .qodana/code-coverage/output*.ic
 
 
