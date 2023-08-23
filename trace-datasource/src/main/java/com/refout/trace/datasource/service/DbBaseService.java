@@ -1,5 +1,7 @@
 package com.refout.trace.datasource.service;
 
+import com.refout.trace.common.exception.SystemException;
+import com.refout.trace.common.util.Assert;
 import com.refout.trace.common.util.DateUtil;
 import com.refout.trace.datasource.annotation.Deleted;
 import com.refout.trace.datasource.annotation.Query;
@@ -55,6 +57,7 @@ public interface DbBaseService<T extends AbstractEntity, ID> {
      * @return 对应的实体对象
      */
     default T getById(ID id) {
+        Assert.notNull(SystemException::new, id, "参数为空");
         return repository().getReferenceById(id);
     }
 
@@ -64,6 +67,7 @@ public interface DbBaseService<T extends AbstractEntity, ID> {
      * @param id 实体对象的ID
      */
     default void deleteById(ID id) {
+        Assert.notNull(SystemException::new, id, "参数为空");
         repository().deleteById(id);
     }
 
@@ -73,6 +77,7 @@ public interface DbBaseService<T extends AbstractEntity, ID> {
      * @param ids 实体对象的ID列表
      */
     default void deleteAllById(List<ID> ids) {
+        Assert.noNullElements(SystemException::new, ids, "参数为空");
         repository().deleteAllById(ids);
     }
 
@@ -83,6 +88,7 @@ public interface DbBaseService<T extends AbstractEntity, ID> {
      * @return 保存后的实体对象
      */
     default T save(T t) {
+        Assert.notNull(SystemException::new, t, "参数为空");
         return repository().save(t);
     }
 
@@ -93,6 +99,7 @@ public interface DbBaseService<T extends AbstractEntity, ID> {
      * @return 保存后的实体对象列表
      */
     default List<T> saveAll(List<T> ts) {
+        Assert.noNullElements(SystemException::new, ts, "参数为空");
         return repository().saveAll(ts);
     }
 
