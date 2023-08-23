@@ -18,6 +18,8 @@ target/
 .idea/misc.xml
 /.idea/httpRequests/
 
+!**/.qodana/code-coverage/output.ic
+
 ### Eclipse ###
 .apt_generated
 .classpath
