@@ -18,6 +18,11 @@ import java.util.List;
  */
 public abstract class BaseController<T extends AbstractEntity, ID> {
 
+    /**
+     * 数据库查询service
+     *
+     * @return {@link DbBaseService}
+     */
     protected abstract DbBaseService<T, ID> dbBaseService();
 
     @PostMapping("/page")
