@@ -219,11 +219,12 @@ public class Assert {
      */
     public static void noNullElements(@NotNull Function<String, ? extends RuntimeException> exceptionInstance,
                                       @Nullable Object[] array, String message) {
-        if (array != null) {
-            for (Object element : array) {
-                if (element == null) {
-                    throw exceptionInstance.apply(message);
-                }
+        if (array == null) {
+            throw exceptionInstance.apply(message);
+        }
+        for (Object element : array) {
+            if (element == null) {
+                throw exceptionInstance.apply(message);
             }
         }
     }
@@ -238,6 +239,37 @@ public class Assert {
     public static void noNullElements(@NotNull Function<String, ? extends RuntimeException> exceptionInstance,
                                       @Nullable Object[] array, Supplier<String> messageSupplier) {
         noNullElements(exceptionInstance, array, nullSafeGet(messageSupplier));
+    }
+
+    /**
+     * 检查集合中是否存在 null 元素，如果存在则抛出异常。
+     *
+     * @param exceptionInstance 抛出的异常实例
+     * @param collection        集合
+     * @param message           异常消息
+     */
+    public static void noNullElements(@NotNull Function<String, ? extends RuntimeException> exceptionInstance,
+                                      @Nullable Collection<?> collection, String message) {
+        if (collection == null) {
+            throw exceptionInstance.apply(message);
+        }
+        for (Object element : collection) {
+            if (element == null) {
+                throw exceptionInstance.apply(message);
+            }
+        }
+    }
+
+    /**
+     * 检查集合中是否存在 null 元素，如果存在则抛出异常。
+     *
+     * @param exceptionInstance 抛出的异常实例
+     * @param collection        集合
+     * @param messageSupplier   异常消息的供应商
+     */
+    public static void noNullElements(@NotNull Function<String, ? extends RuntimeException> exceptionInstance,
+                                      @Nullable Collection<?> collection, Supplier<String> messageSupplier) {
+        noNullElements(exceptionInstance, collection, nullSafeGet(messageSupplier));
     }
 
     /**
@@ -264,36 +296,6 @@ public class Assert {
     public static void notEmpty(@NotNull Function<String, ? extends RuntimeException> exceptionInstance,
                                 @Nullable Collection<?> collection, Supplier<String> messageSupplier) {
         notEmpty(exceptionInstance, collection, nullSafeGet(messageSupplier));
-    }
-
-    /**
-     * 检查集合中是否存在 null 元素，如果存在则抛出异常。
-     *
-     * @param exceptionInstance 抛出的异常实例
-     * @param collection        集合
-     * @param message           异常消息
-     */
-    public static void noNullElements(@NotNull Function<String, ? extends RuntimeException> exceptionInstance,
-                                      @Nullable Collection<?> collection, String message) {
-        if (collection != null) {
-            for (Object element : collection) {
-                if (element == null) {
-                    throw exceptionInstance.apply(message);
-                }
-            }
-        }
-    }
-
-    /**
-     * 检查集合中是否存在 null 元素，如果存在则抛出异常。
-     *
-     * @param exceptionInstance 抛出的异常实例
-     * @param collection        集合
-     * @param messageSupplier   异常消息的供应商
-     */
-    public static void noNullElements(@NotNull Function<String, ? extends RuntimeException> exceptionInstance,
-                                      @Nullable Collection<?> collection, Supplier<String> messageSupplier) {
-        noNullElements(exceptionInstance, collection, nullSafeGet(messageSupplier));
     }
 
     /**
