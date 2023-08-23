@@ -37,7 +37,7 @@
         <jjwt.version>0.11.5</jjwt.version>
         <bitwalker.version>1.21</bitwalker.version>
         <intellij.coverage.agent.version>1.0.725</intellij.coverage.agent.version>
-        <intellij.agent.options>${project.basedir}/.qodana/code-coverage/output.ic,true,true,true,false
+        <intellij.agent.options>${project.basedir}../.qodana/code-coverage/output-${artifactId}.ic,true,true,true,false
         </intellij.agent.options>
     </properties>
 
