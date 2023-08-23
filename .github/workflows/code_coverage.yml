@@ -43,7 +43,7 @@ jobs:
         uses: JetBrains/qodana-action@v2023.2
         with:
           pr-mode: false
-          args: "--apply-fixes,-i,**/,--linter,jetbrains/qodana-jvm:2023.2"
+          args: "-i,**/,--linter,jetbrains/qodana-jvm:2023.2"
           push-fixes: pull-request
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }} # read the steps about it below
