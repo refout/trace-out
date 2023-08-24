@@ -1,4 +1,5 @@
-package com.refout.trace.system.controller;
+package com.refout.trace.common.web.controller;
+
 import com.refout.trace.datasource.domain.AbstractEntity;
 import com.refout.trace.datasource.domain.query.QueryRequest;
 import com.refout.trace.datasource.domain.query.page.PageIn;
