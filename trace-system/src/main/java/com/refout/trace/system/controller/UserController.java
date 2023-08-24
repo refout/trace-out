@@ -2,14 +2,14 @@ package com.refout.trace.system.controller;
 
 import com.refout.trace.common.system.domain.User;
 import com.refout.trace.common.system.service.UserService;
-import com.refout.trace.datasource.service.DbBaseService;
+import com.refout.trace.datasource.service.DbService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/user")
-public class UserController extends BaseController<User, Long> {
+public class UserController extends AbstractController<User, Long> {
 
     @Resource
     private UserService userService;
@@ -17,10 +17,10 @@ public class UserController extends BaseController<User, Long> {
     /**
      * 数据库查询service
      *
-     * @return {@link DbBaseService}
+     * @return {@link DbService}
      */
     @Override
-    protected DbBaseService<User, Long> dbBaseService() {
+    protected DbService<User, Long> dbBaseService() {
         return userService;
     }
 

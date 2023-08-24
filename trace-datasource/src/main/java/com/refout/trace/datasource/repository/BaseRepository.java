@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
+import java.io.Serializable;
+
 /**
  * BaseRepository接口是一个基础的仓库接口，继承自JpaRepository和JpaSpecificationExecutor接口。
  * 它用于操作数据库中的实体对象，并提供基本的CRUD操作。
@@ -18,6 +20,6 @@ import org.springframework.data.repository.NoRepositoryBean;
  * @since 2023/8/11 22:45
  */
 @NoRepositoryBean
-public interface BaseRepository<T extends AbstractEntity, ID> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
+public interface BaseRepository<T extends AbstractEntity, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
 
 }

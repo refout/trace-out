@@ -25,6 +25,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.ReflectionUtils;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ import static com.refout.trace.datasource.enums.QueryFunc.LIKE;
  * @since 2023/8/12 23:06
  */
 @SuppressWarnings({"UnusedReturnValue", "unused"})
-public interface DbBaseService<T extends AbstractEntity, ID> {
+public interface DbService<T extends AbstractEntity, ID extends Serializable> {
 
     /**
      * 获取对应实体类的Repository
