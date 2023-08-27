@@ -1,5 +1,8 @@
 package com.refout.trace.system.service;
 
-public interface RoleService {
+import com.refout.trace.datasource.service.DbService;
+import com.refout.trace.system.domain.Role;
+
+public interface RoleService extends DbService<Role, Long> {
 
 }

@@ -1,6 +1,7 @@
 package com.refout.trace.common.system.service;
 
 import com.refout.trace.common.system.domain.Api;
+import com.refout.trace.datasource.service.DbService;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @version 1.0
  * @since 2023/8/7 17:21
  */
-public interface ApiService {
+public interface ApiService extends DbService<Api, Long> {
 
     /**
      * 通过用户id查询接口权限字段

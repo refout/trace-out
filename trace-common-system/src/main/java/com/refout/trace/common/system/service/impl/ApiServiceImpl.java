@@ -3,6 +3,7 @@ package com.refout.trace.common.system.service.impl;
 import com.refout.trace.common.system.domain.Api;
 import com.refout.trace.common.system.repository.ApiRepository;
 import com.refout.trace.common.system.service.ApiService;
+import com.refout.trace.datasource.repository.BaseRepository;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,16 @@ public class ApiServiceImpl implements ApiService {
     @Override
     public List<String> getPermissionByUserId(long userId) {
         return apiRepository.findPermissionsByUserId(userId);
+    }
+
+    /**
+     * 获取对应实体类的Repository
+     *
+     * @return 实体类对应的Repository
+     */
+    @Override
+    public BaseRepository<Api, Long> repository() {
+        return apiRepository;
     }
 
 }

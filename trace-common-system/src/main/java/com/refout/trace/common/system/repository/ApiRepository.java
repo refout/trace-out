@@ -1,7 +1,7 @@
 package com.refout.trace.common.system.repository;
 
 import com.refout.trace.common.system.domain.Api;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.refout.trace.datasource.repository.BaseRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -16,7 +16,7 @@ import java.util.List;
  * @since 2023/8/7 17:31
  */
 @Repository
-public interface ApiRepository extends JpaRepository<Api, Long> {
+public interface ApiRepository extends BaseRepository<Api, Long> {
 
 	/**
 	 * 根据角色ID列表查询对应的权限列表。
