@@ -1,7 +1,7 @@
 package com.refout.trace.common.system.service;
 
 import com.refout.trace.common.system.domain.Config;
-import com.refout.trace.datasource.service.DbService;
+import com.refout.trace.datasource.service.CrudService;
 
 /**
  * 配置服务接口，用于获取配置信息。
@@ -10,7 +10,7 @@ import com.refout.trace.datasource.service.DbService;
  * @version 1.0
  * @since 2023/8/10 17:14
  */
-public interface ConfigService extends DbService<Config, Long> {
+public interface ConfigService extends CrudService<Config, Long> {
 
     /**
      * 根据配置名称获取配置值。

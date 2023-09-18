@@ -42,7 +42,7 @@ import static com.refout.trace.datasource.enums.QueryFunc.LIKE;
  * @since 2023/8/12 23:06
  */
 @SuppressWarnings({"UnusedReturnValue", "unused"})
-public interface DbService<T extends AbstractEntity, ID extends Serializable> {
+public interface CrudService<T extends AbstractEntity, ID extends Serializable> {
 
     /**
      * 获取对应实体类的Repository

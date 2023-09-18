@@ -1,7 +1,7 @@
 package com.refout.trace.common.system.service;
 
 import com.refout.trace.common.system.domain.User;
-import com.refout.trace.datasource.service.DbService;
+import com.refout.trace.datasource.service.CrudService;
 
 /**
  * UserService 接口提供与用户领域交互的方法。
@@ -10,7 +10,7 @@ import com.refout.trace.datasource.service.DbService;
  * @version 1.0
  * @since 2023/7/26 14:45
  */
-public interface UserService extends DbService<User, Long> {
+public interface UserService extends CrudService<User, Long> {
 
     /**
      * 根据用户名检索用户信息的方法。
