@@ -9,6 +9,10 @@ public class CacheKey extends AuthCacheKey {
         return key(PREFIX, USER, "PASSWORD_ERROR_COUNT", username);
     }
 
+    public static String captchaErrorCountKey(final String captchaId) {
+        return key(PREFIX, USER, "CAPTCHA_ERROR_COUNT", captchaId);
+    }
+
     public static String captchaKey(String captchaId) {
         return key(PREFIX, USER, "CAPTCHA", captchaId);
     }

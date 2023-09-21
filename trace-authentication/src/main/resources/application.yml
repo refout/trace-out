@@ -30,10 +30,6 @@ trace:
     node-id:
       timeout-hour: 1
       redis-expire-job: 0 0/50 * * * ?
-  login:
-    password-error:
-      retry-count: 5
-      lock-minute: 10
   security:
     no-filter: /captcha,/login,/register
 
