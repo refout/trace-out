@@ -19,12 +19,12 @@ import com.refout.trace.common.web.domain.Authenticated;
 import com.refout.trace.common.web.exception.AuthenticationException;
 import com.refout.trace.common.web.util.ServletUtil;
 import com.refout.trace.common.web.util.jwt.JwtUtil;
+import com.refout.trace.redis.handler.RedisRetry;
 import eu.bitwalker.useragentutils.UserAgent;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -56,28 +56,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private static final int USERNAME_MAX_LEN = 12;
 
     /**
-     * 密码错误重试次数
-     */
-    @Value("${trace.login.password-error.retry-count}")
-    private int passwordErrorRetryCount;
-
-    /**
-     * 密码错误锁定时间
-     */
-    @Value("${trace.login.password-error.lock-minute}")
-    private int passwordErrorLockMinute;
-
-    /**
      * 字符串类型的Redis模板
      */
     @Resource
     private RedisTemplate<String, String> redisTemplateStr;
-
-    /**
-     * 数字类型的Redis模板
-     */
-    @Resource
-    private RedisTemplate<String, Integer> redisTemplateNumber;
 
     /**
      * Authenticated类型的Redis模板
@@ -149,14 +131,28 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private void validateCaptcha(final LoginRequest loginRequest) {
         if (AuthenticationConfig.CAPTCHA_ENABLE.value()) {
             String captchaId = loginRequest.captchaId();
+
+            String captchaErrorCountKey = CacheKey.captchaErrorCountKey(captchaId);
+
+            Assert.isTrue(
+                    AuthenticationException::new,
+                    //获取指定用户密码错误的重试登录次数
+                    RedisRetry.getRetry(captchaErrorCountKey) < AuthenticationConfig.CAPTCHA_ERROR_RETRY_COUNT.value(),
+                    "验证码多次输入错误，账号已被锁定，稍后再试"
+            );
+
             String captchaCode = loginRequest.captchaCode();
-            Assert.isTrue(AuthenticationException::new, StrUtil.hasTextAll(captchaId, captchaCode), "验证码为空");
+            Assert.isTrue(AuthenticationException::new, StrUtil.hasTextAll(captchaId, captchaCode), () -> {
+                RedisRetry.recordRetry(captchaErrorCountKey, AuthenticationConfig.CAPTCHA_ERROR_LOCK_MINUTE.value(), TimeUnit.MINUTES);
+                return "验证码为空";
+            });
 
             String key = CacheKey.captchaKey(captchaId);
             String cacheCaptchaCode = redisTemplateStr.opsForValue().get(key);
             Assert.hasText(AuthenticationException::new, cacheCaptchaCode, "验证码已失效");
             Assert.isTrue(AuthenticationException::new, captchaCode.equalsIgnoreCase(cacheCaptchaCode), "验证码错误");
 
+            RedisRetry.removeRetry(captchaErrorCountKey);
             redisTemplateStr.delete(key);
         }
     }
@@ -175,10 +171,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 AuthenticationException::new, StrUtil.hasTextAll(principal, credentials), "用户名或密码为空"
         );
 
-        int retryLoginCount = getRetry(principal);
+        // 获取密码错误计数键
+        String passwordErrorCountKey = CacheKey.passwordErrorCountKey(principal);
+
         Assert.isTrue(
                 AuthenticationException::new,
-                retryLoginCount < passwordErrorRetryCount,
+                //获取指定用户密码错误的重试登录次数
+                RedisRetry.getRetry(passwordErrorCountKey) < AuthenticationConfig.PASSWORD_ERROR_RETRY_COUNT.value(),
                 "用户名或密码多次输入错误，账号已被锁定，稍后再试"
         );
 
@@ -190,58 +189,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Assert.notNull(AuthenticationException::new, user, "用户未注册");
 
         Assert.isTrue(AuthenticationException::new, PasswordValidator.matches(credentials, user.getPassword()), () -> {
-            recordRetry(principal, retryLoginCount);
+            // 将重试次数加1，并设置到Redis中，设置过期时间为passwordErrorLockMinute分钟
+            RedisRetry.recordRetry(passwordErrorCountKey, AuthenticationConfig.PASSWORD_ERROR_LOCK_MINUTE.value(), TimeUnit.MINUTES);
             return "用户名或密码错误";
         });
 
-        removeRetry(principal);
+        // 移除用户密码错误的重试登录次数
+        RedisRetry.removeRetry(passwordErrorCountKey);
 
         return user;
-    }
-
-    /**
-     * 获取指定用户密码错误的重试登录次数。
-     *
-     * @param username 用户名
-     * @return 重试次数
-     */
-    private int getRetry(final String username) {
-        // 获取密码错误计数键
-        String passwordErrorCountKey = CacheKey.passwordErrorCountKey(username);
-        // 从Redis中获取计数值
-        Integer count = redisTemplateNumber.boundValueOps(passwordErrorCountKey).get();
-        // 如果计数值为空，则将其设置为0
-        if (count == null) {
-            count = 0;
-        }
-        // 返回计数值
-        return count;
-    }
-
-    /**
-     * 记录用户密码错误的重试登录次数。
-     *
-     * @param username 用户名
-     * @param count    当前重试次数
-     */
-    private void recordRetry(final String username, final int count) {
-        // 获取密码错误计数键
-        String passwordErrorCountKey = CacheKey.passwordErrorCountKey(username);
-        // 将重试次数加1，并设置到Redis中，设置过期时间为passwordErrorLockMinute分钟
-        redisTemplateNumber.boundValueOps(passwordErrorCountKey)
-                .set(count + 1, passwordErrorLockMinute, TimeUnit.MINUTES);
-    }
-
-    /**
-     * 移除用户密码错误的重试登录次数。
-     *
-     * @param username 用户名
-     */
-    private void removeRetry(final String username) {
-        // 获取密码错误计数键
-        String passwordErrorCountKey = CacheKey.passwordErrorCountKey(username);
-        // 从Redis中删除计数键
-        redisTemplateNumber.delete(passwordErrorCountKey);
     }
 
     /**
