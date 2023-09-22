@@ -1,10 +1,15 @@
 drop table if exists tb_address;
 create table tb_address
 (
-    id        bigint           not null comment '主键id'
+    id          bigint                          not null comment '主键id'
         primary key,
-    parent_id bigint default 0 not null comment '父id',
-    `name`    varchar(128)     not null comment '名称'
+    parent_id   bigint     default 0            not null comment '父id',
+    `name`      varchar(128)                    not null comment '名称',
+    create_time datetime   default current_date not null comment '创建时间',
+    create_by   varchar(20)                     not null comment '创建人',
+    update_time datetime                        null comment '更新时间',
+    update_by   varchar(20)                     null comment '更新人',
+    deleted     tinyint(1) default 0            not null comment '逻辑删除（0：未删除；1：已删除）'
 ) comment '地址';
 
 create index address_parent_id_index

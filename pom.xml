@@ -24,6 +24,7 @@
         <module>trace-common-web</module>
         <module>trace-common</module>
         <module>trace-common-system</module>
+        <module>trace-address</module>
     </modules>
 
     <properties>

@@ -9,12 +9,17 @@
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>trace-express-form</artifactId>
+    <artifactId>trace-address</artifactId>
 
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
+    <dependencies>
+        <dependency>
+            <groupId>com.refout</groupId>
+            <artifactId>trace-common-web</artifactId>
+        </dependency>
+    </dependencies>
 </project>
