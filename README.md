@@ -1,6 +1,6 @@
 # trace
 
-本项目是一个基于 JDK 17、Spring Boot 3、MySQL 和 Redis 的后台管理系统。 
+本项目是一个基于 JDK 21、Spring Boot 3、MySQL 和 Redis 的后台管理系统。 
 
 ## 功能特性
 
@@ -10,7 +10,7 @@
 
 ## 技术栈
 
-- JDK 17 
+- JDK 21 
 - Spring Boot 3 
 - Spring MVC 
 - Spring Data JPA 
@@ -19,7 +19,7 @@
 
 ## 环境要求
 
-- JDK 17 
+- JDK 21 
 - Maven 
 - MySQL 
 - Redis 
