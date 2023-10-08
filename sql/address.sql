@@ -5,7 +5,7 @@ create table tb_address
         primary key,
     parent_id   bigint     default 0            not null comment '父id',
     `name`      varchar(128)                    not null comment '名称',
-    create_time datetime   default current_date not null comment '创建时间',
+    create_time datetime  not null comment '创建时间',
     create_by   varchar(20)                     not null comment '创建人',
     update_time datetime                        null comment '更新时间',
     update_by   varchar(20)                     null comment '更新人',
