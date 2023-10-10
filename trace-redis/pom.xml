@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.refout</groupId>
+        <groupId>com.refout.trace</groupId>
         <artifactId>trace-out</artifactId>
         <version>0.0.1</version>
     </parent>
@@ -26,7 +26,7 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.refout</groupId>
+            <groupId>com.refout.trace</groupId>
             <artifactId>trace-common</artifactId>
         </dependency>
     </dependencies>
