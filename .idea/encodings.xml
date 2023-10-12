@@ -8,13 +8,13 @@
     <file url="file://$PROJECT_DIR$/trace-common-system/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/trace-common-web/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/trace-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trace-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trace-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trace-core/trace-core-data-chainblock/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trace-core/trace-core-data-db/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trace-core/trace-core-shell/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/trace-datasource/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/trace-express-form/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/trace-framework/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/trace-framework/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/trace-framework/trace-framework-data-chaincode/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/trace-framework/trace-framework-data-db/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/trace-framework/trace-framework-shell/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/trace-redis/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/trace-system/src/main/java" charset="UTF-8" />
   </component>

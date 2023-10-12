@@ -24,14 +24,15 @@
         <module>trace-common-web</module>
         <module>trace-common</module>
         <module>trace-common-system</module>
-        <module>trace-framework</module>
+        <module>trace-core</module>
     </modules>
 
     <properties>
         <java.version>17</java.version>
+        <project.encoding>UTF-8</project.encoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
         <spring-boot.version>3.1.2</spring-boot.version>
         <spring-cloud.version>2022.0.4</spring-cloud.version>
         <spring-boot-admin.version>3.1.6</spring-boot-admin.version>

@@ -3,6 +3,7 @@ package com.refout.trace.common.system.repository;
 import com.refout.trace.common.system.domain.Config;
 import com.refout.trace.datasource.repository.BaseRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
  * @version 1.0
  * @since 2023/8/12 23:33
  */
+@Component
 @Repository
 public interface ConfigRepository extends BaseRepository<Config, Long> {
 
