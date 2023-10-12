@@ -46,8 +46,8 @@ create table tb_trace_production_obj
     deleted     tinyint(1) default 0 not null comment '逻辑删除（0：未删除；1：已删除）'
 ) comment '产品对象溯源';
 
-drop table if exists tb_trace_production_line;
-create table tb_trace_production_line
+drop table if exists tb_trace_production_chain;
+create table tb_trace_production_chain
 (
     id               bigint               not null comment '主键id' primary key,
     producer_id      bigint               not null comment '关联的生产商id',
@@ -65,7 +65,7 @@ create table tb_trace_production_line
     update_time      datetime             null comment '更新时间',
     update_by        varchar(20)          null comment '更新人',
     deleted          tinyint(1) default 0 not null comment '逻辑删除（0：未删除；1：已删除）'
-) comment '产品对象溯源';
+) comment '产品对象溯源链';
 
 drop table if exists tb_trace_sale_obj;
 create table tb_trace_sale_obj
@@ -80,12 +80,36 @@ create table tb_trace_sale_obj
     batch_num            VARCHAR(20)          not null comment '批次号',
     specification        VARCHAR(20)          not null comment '规格',
     quality_check_result VARCHAR(20)          not null comment '质量检测结果',
-    seller               varchar(100)         not null comment '销售商',
-    sale_date            datetime             not null comment '销售日期',
+
+    sale_time            datetime             not null comment '销售日期',
     remark               varchar(500)         null comment '备注',
     create_time          datetime             not null comment '创建时间',
     create_by            varchar(20)          not null comment '创建人',
     update_time          datetime             null comment '更新时间',
     update_by            varchar(20)          null comment '更新人',
     deleted              tinyint(1) default 0 not null comment '逻辑删除（0：未删除；1：已删除）'
-) comment '商品对象溯源';
+) comment '产品销售对象溯源';
+
+drop table if exists tb_trace_sale_chain;
+create table tb_trace_sale_chain
+(
+    id               bigint               not null comment '主键id' primary key,
+    producer_id      bigint               not null comment '关联的生产商id',
+    product_id       bigint               not null comment '关联的生产商产品id',
+    sale_id          bigint               not null comment '关联的产品销售id',
+    code             varchar(100)         not null comment '编号',
+    name             varchar(128)         not null comment '名称',
+    seller           varchar(100)         not null comment '销售商',
+    purchase_time    datetime             not null comment '销售商买入日期',
+    terminal_seller  tinyint(1) default 0 not null comment '是否为最后销售商（0：否；1：是）',
+    event_start_time datetime             not null comment '事件发生开始时间',
+    event_end_time   datetime             not null comment '事件发生结束时间',
+    event_category   varchar(20)          not null comment '事件分类',
+    event_content    varchar(500)         not null comment '事件内容',
+    remark           varchar(500)         null comment '备注',
+    create_time      datetime             not null comment '创建时间',
+    create_by        varchar(20)          not null comment '创建人',
+    update_time      datetime             null comment '更新时间',
+    update_by        varchar(20)          null comment '更新人',
+    deleted          tinyint(1) default 0 not null comment '逻辑删除（0：未删除；1：已删除）'
+) comment '产品销售对象溯源链';
