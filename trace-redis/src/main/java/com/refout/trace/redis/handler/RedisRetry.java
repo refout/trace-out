@@ -1,7 +1,7 @@
 package com.refout.trace.redis.handler;
 
-import com.refout.trace.common.util.SpringUtil;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,13 +12,17 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0
  * @since 2023/9/21 17:49
  */
+@Component
 public class RedisRetry {
 
     /**
      * 用于操作 Redis 数据库
      */
-    @SuppressWarnings("unchecked")
-    private static final RedisTemplate<String, Integer> redisTemplate = SpringUtil.getBean(RedisTemplate.class);
+    private static RedisTemplate<String, Integer> redisTemplate;//= SpringUtil.getBean(RedisTemplate.class);
+
+    public RedisRetry(RedisTemplate<String, Integer> redisTemplate) {
+        RedisRetry.redisTemplate = redisTemplate;
+    }
 
     /**
      * 获取指定键的重试次数

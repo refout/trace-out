@@ -1,12 +1,6 @@
 package com.refout.trace.common.web.util.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.apache.catalina.connector.RequestFacade;
 
@@ -56,11 +50,11 @@ public class JwtUtil {
 	 */
 	public static String createToken(Map<String, Object> claims, String jti) {
 		JwtBuilder jwtBuilder = Jwts.builder()
-				.setId(jti)
-				.signWith(key, SignatureAlgorithm.HS256);
+				.id(jti)
+				.signWith(key);
 
 		if (claims != null) {
-			jwtBuilder.setClaims(claims);
+			jwtBuilder.claims(claims);
 		}
 		return jwtBuilder.compact();
 	}
@@ -76,12 +70,12 @@ public class JwtUtil {
 			return null;
 		}
 		try {
-			JwtParser build = Jwts.parserBuilder().setSigningKey(key).build();
+			JwtParser build = Jwts.parser().verifyWith(key).build();
 			if (!build.isSigned(token)) {
 				return null;
 			}
-			Jws<Claims> claimsJws = build.parseClaimsJws(token);
-			return claimsJws.getBody();
+			Jws<Claims> claimsJws = build.parseSignedClaims(token);
+			return claimsJws.getPayload();
 		} catch (JwtException e) {
 			return null;
 		}
