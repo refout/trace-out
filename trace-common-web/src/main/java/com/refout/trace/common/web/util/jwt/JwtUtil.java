@@ -3,6 +3,8 @@ package com.refout.trace.common.web.util.jwt;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.apache.catalina.connector.RequestFacade;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -81,7 +83,13 @@ public class JwtUtil {
 		}
 	}
 
-	public static String getToken(RequestFacade request) {
+	/**
+	 * 从请求中获取JWT令牌
+	 *
+	 * @param request 请求对象 {@link RequestFacade}
+	 * @return JWT令牌
+	 */
+	public static @Nullable String getToken(@NotNull RequestFacade request) {
 		// 从请求头中获取JWT令牌
 		final String authorization = request.getHeader(JwtUtil.AUTHORIZATION);
 		if (authorization == null || authorization.isBlank()) {
