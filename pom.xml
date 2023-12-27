@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.4</version>
+        <version>3.2.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -34,11 +34,11 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
         <spring-boot.version>3.1.2</spring-boot.version>
-        <spring-cloud.version>2022.0.4</spring-cloud.version>
-        <spring-boot-admin.version>3.1.7</spring-boot-admin.version>
+        <spring-cloud.version>2023.0.0</spring-cloud.version>
+        <spring-boot-admin.version>3.2.0</spring-boot-admin.version>
         <jjwt.version>0.12.3</jjwt.version>
         <bitwalker.version>1.21</bitwalker.version>
-        <intellij.coverage.agent.version>1.0.725</intellij.coverage.agent.version>
+        <intellij.coverage.agent.version>1.0.742</intellij.coverage.agent.version>
         <intellij.agent.options>${project.basedir}/../.qodana/code-coverage/output-${artifactId}.ic,true,true,true,false
         </intellij.agent.options>
     </properties>
@@ -51,7 +51,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>24.0.1</version>
+            <version>24.1.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
