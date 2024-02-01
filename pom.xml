@@ -33,7 +33,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-cloud.version>2023.0.0</spring-cloud.version>
         <spring-boot-admin.version>3.2.1</spring-boot-admin.version>
-        <jjwt.version>0.12.3</jjwt.version>
+        <jjwt.version>0.12.5</jjwt.version>
         <bitwalker.version>1.21</bitwalker.version>
         <intellij.coverage.agent.version>1.0.744</intellij.coverage.agent.version>
         <intellij.agent.options>${project.basedir}/../.qodana/code-coverage/output-${artifactId}.ic,true,true,true,false
