@@ -35,7 +35,7 @@
         <spring-boot-admin.version>3.2.1</spring-boot-admin.version>
         <jjwt.version>0.12.3</jjwt.version>
         <bitwalker.version>1.21</bitwalker.version>
-        <intellij.coverage.agent.version>1.0.744</intellij.coverage.agent.version>
+        <intellij.coverage.agent.version>1.0.753</intellij.coverage.agent.version>
         <intellij.agent.options>${project.basedir}/../.qodana/code-coverage/output-${artifactId}.ic,true,true,true,false
         </intellij.agent.options>
     </properties>
